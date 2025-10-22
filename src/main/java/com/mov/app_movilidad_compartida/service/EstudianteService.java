@@ -9,7 +9,7 @@ public class EstudianteService {
 
     private List<Estudiante> estudiantes = new ArrayList<>();
 
-    // Metodo para registrar estudiante
+    
     public void registrarEstudiante(Estudiante estudiante) {
         if (estudiante.validarCorreoInstitucional()) {
             if (!verificarCorreoRepetido(estudiante.getCorreoInstitucional())) {
@@ -23,7 +23,7 @@ public class EstudianteService {
         }
     }
 
-    // Metodo para crear estudiante pidiendo los datos por consola
+    
     public Estudiante crearEstudiantePorConsola(Scanner sc) {
         System.out.println("\nRegistro de Estudiante");
         System.out.print("Codigo de estudiante: ");
@@ -44,12 +44,12 @@ public class EstudianteService {
         return new Estudiante(codigo, nombre, carrera, correo, contrasena);
     }
 
-    // Metodo para validar correo institucional
+    
     public boolean validarCorreoInstitucional(String correo) {
         return correo.endsWith("@usil.pe") || correo.endsWith("@usil.edu.pe");
     }
 
-    // Metodo para verificar si el correo ya existe
+    
     public boolean verificarCorreoRepetido(String correo) {
         for (Estudiante e : estudiantes) {
             if (e.getCorreoInstitucional().equalsIgnoreCase(correo)) {
@@ -59,7 +59,7 @@ public class EstudianteService {
         return false;
     }
 
-    // Metodo para iniciar sesion
+    
     public Estudiante iniciarSesionEstudiante(String correo, String contrasena) {
         for (Estudiante e : estudiantes) {
             if (e.getCorreoInstitucional().equals(correo) && e.getContrasena().equals(contrasena)) {
@@ -69,22 +69,22 @@ public class EstudianteService {
         return null;
     }
 
-    // Metodo para listar rutas disponibles (placeholder)
+    
     public void listarRutasDisponibles() {
         System.out.println("Rutas disponibles: (Soon...)");
     }
 
-    // Metodo para registrar al estudiante en una ruta (placeholder)
+    
     public void registrarEnRuta() {
         System.out.println("Registrarse en una ruta: (Soon...)");
     }
 
-    // Metodo para consultar las rutas inscritas (placeholder)
+   
     public void consultarRutasInscritas() {
         System.out.println("Ver mis viajes: (Soon...)");
     }
 
-    // Metodo para cerrar sesion
+    
     public void cerrarSesionEstudiante(Estudiante estudiante) {
         System.out.println("Sesion cerrada. Hasta pronto, " + estudiante.getNombre() + "!");
     }
