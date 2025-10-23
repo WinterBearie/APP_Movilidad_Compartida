@@ -9,7 +9,7 @@ public class EstudianteService {
 
     private List<Estudiante> estudiantes = new ArrayList<>();
 
-    
+
     public void registrarEstudiante(Estudiante estudiante) {
         if (estudiante.validarCorreoInstitucional()) {
             if (!verificarCorreoRepetido(estudiante.getCorreoInstitucional())) {
@@ -23,7 +23,7 @@ public class EstudianteService {
         }
     }
 
-    
+
     public Estudiante crearEstudiantePorConsola(Scanner sc) {
         System.out.println("\nRegistro de Estudiante");
         System.out.print("Codigo de estudiante: ");
@@ -44,12 +44,12 @@ public class EstudianteService {
         return new Estudiante(codigo, nombre, carrera, correo, contrasena);
     }
 
-    
+
     public boolean validarCorreoInstitucional(String correo) {
         return correo.endsWith("@usil.pe") || correo.endsWith("@usil.edu.pe");
     }
 
-    
+
     public boolean verificarCorreoRepetido(String correo) {
         for (Estudiante e : estudiantes) {
             if (e.getCorreoInstitucional().equalsIgnoreCase(correo)) {
@@ -59,7 +59,7 @@ public class EstudianteService {
         return false;
     }
 
-    
+
     public Estudiante iniciarSesionEstudiante(String correo, String contrasena) {
         for (Estudiante e : estudiantes) {
             if (e.getCorreoInstitucional().equals(correo) && e.getContrasena().equals(contrasena)) {
@@ -69,22 +69,17 @@ public class EstudianteService {
         return null;
     }
 
-    
+
     public void listarRutasDisponibles() {
         System.out.println("Rutas disponibles: (Soon...)");
     }
 
-    
-    public void registrarEnRuta() {
-        System.out.println("Registrarse en una ruta: (Soon...)");
-    }
 
-   
     public void consultarRutasInscritas() {
         System.out.println("Ver mis viajes: (Soon...)");
     }
 
-    
+
     public void cerrarSesionEstudiante(Estudiante estudiante) {
         System.out.println("Sesion cerrada. Hasta pronto, " + estudiante.getNombre() + "!");
     }
