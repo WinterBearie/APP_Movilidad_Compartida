@@ -5,12 +5,14 @@ import com.mov.app_movilidad_compartida.model.Estudiante;
 import com.mov.app_movilidad_compartida.model.Ruta;
 import com.mov.app_movilidad_compartida.service.EstudianteService;
 import com.mov.app_movilidad_compartida.service.RutaService;
+import com.mov.app_movilidad_compartida.service.VehiculoService;
 import java.util.Scanner;
 
 public class APP_Movilidad_Compartida {
     private static final Scanner sc = new Scanner(System.in);
     private static final EstudianteService estudianteService = new EstudianteService();
     private static final RutaService rutaService = new RutaService();
+    private static final VehiculoService vehiculoService = new VehiculoService();
 
     public static void main(String[] args) {
 
@@ -126,21 +128,36 @@ public class APP_Movilidad_Compartida {
         int opcionEst;
         do {
             System.out.println("\nMenu del Conductor");
+            System.out.println("1. Registrar vehiculo");
             System.out.println("2. Registrarse en una ruta");
             System.out.println("3. Ver mis rutas y pasajeros");
-            System.out.println("4. Cerrar sesion");
+            System.out.println("4. Ver vehiculos registrados");
+            System.out.println("5. Cerrar sesion");
             System.out.print("Seleccione una opcion: ");
             opcionEst = sc.nextInt();
             sc.nextLine();
 
             switch (opcionEst) {
+                case 1 -> {
+                    System.out.println("\n Registro de Vehiculo");
+                    System.out.print("Ingrese modelo: ");
+                    String modelo = sc.nextLine();
+                    System.out.print("Ingrese placa (formato ABC-123): ");
+                    String placa = sc.nextLine();
+                    vehiculoService.registrarVehiculo(modelo, placa);
+                }
                 case 2 -> {
                     Ruta ruta = rutaService.createRuta(sc, conductor);
                     rutaService.registrarRuta(ruta);
                 }
-                case 3 -> rutaService.printRutasPorConductor(conductor);
+                
+                case 3 -> {
+                    System.out.println("\n Vehiculos Registrados");
+                    vehiculoService.listarVehiculos();
+                }    
+                case 4 -> rutaService.printRutasPorConductor(conductor);   
                 default -> System.out.println("Opcion invalida, intente nuevamente.");
-            }
+        }
 
         } while (opcionEst != 4);
     }
