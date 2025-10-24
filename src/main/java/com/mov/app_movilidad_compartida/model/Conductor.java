@@ -5,14 +5,14 @@ public class Conductor {
     private String DNI; 
     private String nombre;
     private String licencia;
-    private String correoInstitucional;
+    private String correo;
     private String contrasena;
 
-    public Conductor(String DNI, String nombre, String licencia, String correoInstitucional, String contrasena) {
+    public Conductor(String DNI, String nombre, String licencia, String correo, String contrasena) {
         this.DNI = DNI;
         this.nombre = nombre;
         this.licencia = licencia;
-        this.correoInstitucional = correoInstitucional;
+        this.correo = correo;
         this.contrasena = contrasena;
     }
 
@@ -40,12 +40,12 @@ public class Conductor {
         this.licencia = licencia;
     }
 
-    public String getCorreoInstitucional() {
-        return correoInstitucional;
+    public String getCorreo() {
+        return correo;
     }
 
-    public void setCorreoInstitucional(String correoInstitucional) {
-        this.correoInstitucional = correoInstitucional;
+    public void setCorreo(String correo) {
+        this.correo = correo;
     }
 
     public String getContrasena() {
@@ -59,13 +59,10 @@ public class Conductor {
     public Conductor() {
     }
 
-   
-   
-
-    // Validar que el correo sea institucional
-    public boolean validarCorreoInstitucional() {
-        return correoInstitucional != null &&
-               (correoInstitucional.endsWith("@usil.pe") || correoInstitucional.endsWith("@usil.edu.pe"));
+    public boolean validarLicencia() {
+        if (licencia == null) return false;
+        String licenciaUpper = licencia.toUpperCase();
+        return licenciaUpper.compareTo("AIIA") >= 0;
     }
 
-} 
+}

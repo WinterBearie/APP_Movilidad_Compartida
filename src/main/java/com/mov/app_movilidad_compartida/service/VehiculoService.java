@@ -1,4 +1,3 @@
-
 package com.mov.app_movilidad_compartida.service;
 
 import com.mov.app_movilidad_compartida.model.Vehiculo;
@@ -8,20 +7,20 @@ import java.util.List;
 public class VehiculoService {
     private List<Vehiculo> listaVehiculos = new ArrayList<>();
 
-    public boolean registrarVehiculo(String modelo, String placa) {
+    public boolean registrarVehiculo(String modelo, String tipo, String placa) {
         if (buscarPorPlaca(placa) != null) {
             System.out.println("Error: la placa ya se encuentra registrada.");
             return false;
         }
-        Vehiculo v = new Vehiculo(modelo, placa);
+        Vehiculo v = new Vehiculo(modelo, tipo, placa);
         
         if (!v.validarPlaca()) {
-            System.out.println("Formato de placa inválido. Ejemplo correcto: ABC-123");
+            System.out.println("Formato de placa invalido. Ejemplo correcto: ABC-123");
             return false;
         }
 
         listaVehiculos.add(v);
-        System.out.println("Vehículo registrado correctamente: " + v);
+        System.out.println("Vehiculo registrado correctamente: " + v);
         return true;
         }
     
@@ -35,9 +34,9 @@ public class VehiculoService {
     }
         public void listarVehiculos() {
         if (listaVehiculos.isEmpty()) {
-            System.out.println("No hay vehículos registrados.");
+            System.out.println("No hay vehiculos registrados.");
         } else {
-            System.out.println("\n--- Lista de Vehículos ---");
+            System.out.println("\nLista de Vehiculos:");
             for (Vehiculo v : listaVehiculos) {
                 System.out.println(v);
             }

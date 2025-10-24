@@ -11,10 +11,11 @@ public class Ruta {
     private int aforoMaximo;
     private double costo;
     private Conductor conductor;
+    private Vehiculo vehiculo;
     private List<Estudiante> estudiantes;
 
     public Ruta(int idRuta, String puntoPartida, String destino, String horaSalida, int aforoMaximo, double costo,
-            Conductor conductor) {
+            Conductor conductor, Vehiculo vehiculo) {
         this.idRuta = idRuta;
         this.puntoPartida = puntoPartida;
         this.destino = destino;
@@ -22,6 +23,7 @@ public class Ruta {
         this.aforoMaximo = aforoMaximo;
         this.costo = costo;
         this.conductor = conductor;
+        this.vehiculo = vehiculo;
         this.estudiantes = new ArrayList<>();
     }
 
@@ -81,6 +83,14 @@ public class Ruta {
         this.conductor = conductor;
     }
 
+    public Vehiculo getVehiculo() {
+        return vehiculo;
+    }
+
+    public void setVehiculo(Vehiculo vehiculo) {
+        this.vehiculo = vehiculo;
+    }
+
     public List<Estudiante> getEstudiantes() {
         return estudiantes;
     }
@@ -89,14 +99,13 @@ public class Ruta {
         if (estudiantes.size() < aforoMaximo) {
             estudiantes.add(estudiante);
         } else {
-            System.out.println("No se puede agregar más estudiantes, aforo máximo alcanzado.");
+            System.out.println("No se puede agregar mas estudiantes, aforo maximo alcanzado.");
         }
     }
 
     public boolean estaDisponible() {
         return estudiantes.size() < aforoMaximo;
     }
-
 
     @Override
     public String toString() {
@@ -108,6 +117,7 @@ public class Ruta {
                 ", aforoMaximo=" + aforoMaximo +
                 ", costo=" + costo +
                 ", conductor=" + conductor +
+                ", vehiculo=" + vehiculo +
                 ", estudiantes=" + estudiantes +
                 '}';
     }

@@ -16,6 +16,10 @@ public class APP_Movilidad_Compartida {
     private static final RutaService rutaService = new RutaService();
     private static final VehiculoService vehiculoService = new VehiculoService();
 
+    static {
+        estudianteService.setRutaService(rutaService);
+    }
+
     public static void main(String[] args) {
 
         int opcionPrincipal;
@@ -41,15 +45,8 @@ public class APP_Movilidad_Compartida {
                         sc.nextLine();
 
                         switch (opcionRegistro) {
-                            case 1 -> {
-                                Estudiante nuevo = estudianteService.crearEstudiantePorConsola(sc);
-                                estudianteService.registrarEstudiante(nuevo);
-                            }
-                            case 2 -> {
-                                System.out.println("\nRegistro de Conductor");
-                                Conductor nuevoConductor = conductorService.crearConductorPorConsola(sc);
-                                conductorService.registrarConductor(nuevoConductor);
-                            }
+                            case 1 -> registrarEstudiante();
+                            case 2 -> registrarConductor();
                             case 3 -> System.out.println("Volviendo al menu principal...");
                             default -> System.out.println("Opcion invalida, intente nuevamente.");
                         }
@@ -68,38 +65,8 @@ public class APP_Movilidad_Compartida {
                         sc.nextLine();
 
                         switch (opcionSesion) {
-                            case 1 -> {
-                                System.out.print("\nCorreo institucional: ");
-                                String correo = sc.nextLine();
-
-                                System.out.print("Contrasena: ");
-                                String contrasena = sc.nextLine();
-
-                                Estudiante estudiante = estudianteService.iniciarSesionEstudiante(correo, contrasena);
-
-                                if (estudiante != null) {
-                                    System.out.println("Inicio de sesion exitoso. Bienvenido, " + estudiante.getNombre() + "!");
-                                    menuEstudiante(sc, estudiante);
-                                } else {
-                                    System.out.println("Correo o contrasena incorrectos.");
-                                }
-                            }
-                            case 2 -> {
-                                System.out.print("\nCorreo institucional: ");
-                                String correo = sc.nextLine();
-
-                                System.out.print("Contrasena: ");
-                                String contrasena = sc.nextLine();
-
-                                Conductor conductor = conductorService.iniciarSesionConductor(correo, contrasena);
-
-                                if (conductor != null) {
-                                    System.out.println("Inicio de sesion exitoso. Bienvenido, " + conductor.getNombre() + "!");
-                                    menuConductor(sc, conductor);
-                                } else {
-                                    System.out.println("Correo o contrasena incorrectos.");
-                                }
-                            }
+                            case 1 -> iniciarSesionEstudiante();
+                            case 2 -> iniciarSesionConductor();
                             case 3 -> System.out.println("Volviendo al menu principal...");
                             default -> System.out.println("Opcion invalida, intente nuevamente.");
                         }
@@ -113,6 +80,74 @@ public class APP_Movilidad_Compartida {
         } while (opcionPrincipal != 3);
 
         sc.close();
+    }
+
+    private static void registrarEstudiante() {
+        boolean registroExitoso = false;
+        while (!registroExitoso) {
+            Estudiante nuevo = estudianteService.crearEstudiantePorConsola(sc);
+            if (estudianteService.registrarEstudiante(nuevo)) {
+                registroExitoso = true;
+                System.out.println("Registro exitoso! Volviendo al menu principal...");
+            } else {
+                System.out.println("Registro fallido. Intente nuevamente.");
+            }
+        }
+    }
+
+    private static void registrarConductor() {
+        boolean registroExitoso = false;
+        while (!registroExitoso) {
+            Conductor nuevoConductor = conductorService.crearConductorPorConsola(sc);
+            if (conductorService.registrarConductor(nuevoConductor)) {
+                registroExitoso = true;
+                System.out.println("Registro exitoso! Volviendo al menu principal...");
+            } else {
+                System.out.println("Registro fallido. Intente nuevamente.");
+            }
+        }
+    }
+
+    private static void iniciarSesionEstudiante() {
+        boolean sesionExitosa = false;
+        while (!sesionExitosa) {
+            System.out.print("\nCorreo institucional: ");
+            String correo = sc.nextLine();
+
+            System.out.print("Contrasena: ");
+            String contrasena = sc.nextLine();
+
+            Estudiante estudiante = estudianteService.iniciarSesionEstudiante(correo, contrasena);
+
+            if (estudiante != null) {
+                System.out.println("Inicio de sesion exitoso. Bienvenido, " + estudiante.getNombre() + "!");
+                menuEstudiante(sc, estudiante);
+                sesionExitosa = true;
+            } else {
+                System.out.println("Correo o contrasena incorrectos. Intente nuevamente.");
+            }
+        }
+    }
+
+    private static void iniciarSesionConductor() {
+        boolean sesionExitosa = false;
+        while (!sesionExitosa) {
+            System.out.print("\nCorreo: ");
+            String correo = sc.nextLine();
+
+            System.out.print("Contrasena: ");
+            String contrasena = sc.nextLine();
+
+            Conductor conductor = conductorService.iniciarSesionConductor(correo, contrasena);
+
+            if (conductor != null) {
+                System.out.println("Inicio de sesion exitoso. Bienvenido, " + conductor.getNombre() + "!");
+                menuConductor(sc, conductor);
+                sesionExitosa = true;
+            } else {
+                System.out.println("Correo o contrasena incorrectos. Intente nuevamente.");
+            }
+        }
     }
 
     private static void menuEstudiante(Scanner sc, Estudiante estudiante) {
@@ -130,7 +165,7 @@ public class APP_Movilidad_Compartida {
             switch (opcionEst) {
                 case 1 -> rutaService.printRutasDisponibles(estudiante);
                 case 2 -> rutaService.registrarEstudianteEnRuta(sc, estudiante);
-                case 3 -> estudianteService.consultarRutasInscritas();
+                case 3 -> estudianteService.consultarRutasInscritas(estudiante);
                 case 4 -> estudianteService.cerrarSesionEstudiante(estudiante);
                 default -> System.out.println("Opcion invalida, intente nuevamente.");
             }
@@ -146,7 +181,8 @@ public class APP_Movilidad_Compartida {
             System.out.println("2. Crear ruta");
             System.out.println("3. Ver rutas asignadas");
             System.out.println("4. Ver vehiculos registrados");
-            System.out.println("5. Cerrar sesion");
+            System.out.println("5. Ver pasajeros por ruta");
+            System.out.println("6. Cerrar sesion");
             System.out.print("Seleccione una opcion: ");
             opcionCond = sc.nextInt();
             sc.nextLine();
@@ -156,20 +192,25 @@ public class APP_Movilidad_Compartida {
                     System.out.println("\nRegistro de Vehiculo");
                     System.out.print("Ingrese modelo: ");
                     String modelo = sc.nextLine();
+                    System.out.print("Ingrese tipo: ");
+                    String tipo = sc.nextLine();
                     System.out.print("Ingrese placa (formato ABC-123): ");
                     String placa = sc.nextLine();
-                    vehiculoService.registrarVehiculo(modelo, placa);
+                    vehiculoService.registrarVehiculo(modelo, tipo, placa);
                 }
                 case 2 -> {
-                    Ruta ruta = rutaService.createRuta(sc, conductor);
-                    rutaService.registrarRuta(ruta);
+                    Ruta ruta = rutaService.createRuta(sc, conductor, vehiculoService);
+                    if (ruta != null) {
+                        rutaService.registrarRuta(ruta);
+                    }
                 }
                 case 3 -> rutaService.printRutasPorConductor(conductor);
                 case 4 -> vehiculoService.listarVehiculos();
-                case 5 -> conductorService.cerrarSesionConductor(conductor);
+                case 5 -> rutaService.printPasajerosPorConductor(conductor);
+                case 6 -> conductorService.cerrarSesionConductor(conductor);
                 default -> System.out.println("Opcion invalida, intente nuevamente.");
             }
 
-        } while (opcionCond != 5);
+        } while (opcionCond != 6);
     }
 }
