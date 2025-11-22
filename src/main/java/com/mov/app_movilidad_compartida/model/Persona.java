@@ -42,4 +42,11 @@ public abstract class Persona {
     
 
     public abstract boolean validarIdentificacion();
+
+    @Override
+    public String toString() {
+        return "Persona{" + "nombre=" + nombre + ", correo=" + correo + ", contrasena=" + contrasena + '}';
+    }
+    
+    
 }
