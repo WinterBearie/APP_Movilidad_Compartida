@@ -4,18 +4,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Ruta {
-    private int idRuta;
+
+    private String idRuta;
     private String puntoPartida;
     private String destino;
     private String horaSalida;
     private int aforoMaximo;
     private double costo;
     private Conductor conductor;
+    
     private Vehiculo vehiculo;
-    private List<Estudiante> estudiantes;
+    private List<Estudiante> estudiantes = new ArrayList<>();
+    
+    public Conductor getConductor() {
+        return conductor;
+    }
 
-    public Ruta(int idRuta, String puntoPartida, String destino, String horaSalida, int aforoMaximo, double costo,
-            Conductor conductor, Vehiculo vehiculo) {
+    public Ruta(String idRuta, String puntoPartida, String destino, String horaSalida, int aforoMaximo, double costo,
+                Conductor conductor, Vehiculo vehiculo) {
         this.idRuta = idRuta;
         this.puntoPartida = puntoPartida;
         this.destino = destino;
@@ -24,14 +30,13 @@ public class Ruta {
         this.costo = costo;
         this.conductor = conductor;
         this.vehiculo = vehiculo;
-        this.estudiantes = new ArrayList<>();
     }
 
-    public int getIdRuta() {
+    public String getIdRuta() {
         return idRuta;
     }
 
-    public void setIdRuta(int idRuta) {
+    public void setIdRuta(String idRuta) {
         this.idRuta = idRuta;
     }
 
@@ -74,33 +79,19 @@ public class Ruta {
     public void setCosto(double costo) {
         this.costo = costo;
     }
+    
+    
+    public List<Estudiante> getEstudiantes() { return estudiantes; }
 
-    public Conductor getConductor() {
-        return conductor;
-    }
+    public void setConductor(Conductor conductor) { this.conductor = conductor; }
+    public void setVehiculo(Vehiculo vehiculo) { this.vehiculo = vehiculo; }
 
-    public void setConductor(Conductor conductor) {
-        this.conductor = conductor;
-    }
-
-    public Vehiculo getVehiculo() {
-        return vehiculo;
-    }
-
-    public void setVehiculo(Vehiculo vehiculo) {
-        this.vehiculo = vehiculo;
-    }
-
-    public List<Estudiante> getEstudiantes() {
-        return estudiantes;
-    }
-
-    public void agregarEstudiante(Estudiante estudiante) {
-        if (estudiantes.size() < aforoMaximo) {
-            estudiantes.add(estudiante);
-        } else {
-            System.out.println("No se puede agregar mas estudiantes, aforo maximo alcanzado.");
-        }
+    public boolean agregarEstudiante(Estudiante estudiante) {
+        if (estudiante == null) return false;
+        if (estudiantes.size() >= aforoMaximo) return false;
+        if (estudiantes.contains(estudiante)) return false;
+        estudiantes.add(estudiante);
+        return true;
     }
 
     public boolean estaDisponible() {
@@ -110,16 +101,15 @@ public class Ruta {
     @Override
     public String toString() {
         return "Ruta{" +
-                "idRuta=" + idRuta +
+                "idRuta='" + idRuta + '\'' +
                 ", puntoPartida='" + puntoPartida + '\'' +
                 ", destino='" + destino + '\'' +
                 ", horaSalida='" + horaSalida + '\'' +
                 ", aforoMaximo=" + aforoMaximo +
                 ", costo=" + costo +
-                ", conductor=" + conductor +
-                ", vehiculo=" + vehiculo +
-                ", estudiantes=" + estudiantes +
+                ", conductor=" + (conductor != null ? conductor.getNombre() : "N/A") +
+                ", vehiculo=" + (vehiculo != null ? vehiculo.getPlaca() : "N/A") +
+                ", inscritos=" + estudiantes.size() +
                 '}';
     }
-
 }

@@ -9,62 +9,45 @@ public class ConductorService {
 
     private List<Conductor> conductores = new ArrayList<>();
 
-    public boolean registrarConductor(Conductor conductor) {
-        if (conductor == null) return false;
-        if (conductor.validarLicencia()) {
-            if (!verificarCorreoRepetido(conductor.getCorreo())) {
-                conductores.add(conductor);
-                System.out.println("Registro exitoso para: " + conductor.getNombre());
-                return true;
-            } else {
-                System.out.println("El correo ya esta registrado.");
-                return false;
-            }
-        } else {
-            System.out.println("La licencia debe ser mayor o igual a AIIa para realizar movilidad.");
-            return false;
-        }
-    }
-
     public Conductor crearConductorPorConsola(Scanner sc) {
-        System.out.println("\nRegistro de Conductor"); 
         System.out.print("DNI: ");
-        String DNI = sc.nextLine();
-        
+        String dni = sc.nextLine();
         System.out.print("Nombre: ");
         String nombre = sc.nextLine();
-
         System.out.print("Licencia: ");
         String licencia = sc.nextLine();
-
         System.out.print("Correo: ");
         String correo = sc.nextLine();
-
         System.out.print("Contrasena: ");
         String contrasena = sc.nextLine();
 
-        return new Conductor(DNI , nombre, licencia, correo, contrasena);
-    }
-
-    public boolean verificarCorreoRepetido(String correo) {
-        for (Conductor c : conductores) {
-            if (c.getCorreo().equalsIgnoreCase(correo)) {
-                return true;
-            }
+        Conductor c = new Conductor(dni, nombre, licencia, correo, contrasena);
+        if (!c.validarIdentificacion()) {
+            System.out.println("Licencia invalida");
+            return null;
         }
-        return false;
+        return c;
     }
 
-    public Conductor iniciarSesionConductor(String correo, String contrasena) {
+    public boolean registrarConductor(Conductor conductor) {
+        if (conductor == null) return false;
+        if (buscarPorCorreo(conductor.getCorreo()) != null) return false;
+        conductores.add(conductor);
+        return true;
+    }
+
+    public Conductor buscarPorCorreo(String correo) {
         for (Conductor c : conductores) {
-            if (c.getCorreo().equalsIgnoreCase(correo) && c.getContrasena().equals(contrasena)) {
-                return c;
-            }
+            if (c.getCorreo().equalsIgnoreCase(correo)) return c;
         }
         return null;
     }
 
-    public void cerrarSesionConductor(Conductor conductor) {
-        System.out.println("Sesion cerrada. Hasta pronto, " + conductor.getNombre() + "!");
+    public Conductor iniciarSesionConductor(String correo, String contrasena) {
+        Conductor c = buscarPorCorreo(correo);
+        if (c != null && c.getContrasena().equals(contrasena)) return c;
+        return null;
     }
+
+    public void cerrarSesionConductor(Conductor conductor) { }
 }

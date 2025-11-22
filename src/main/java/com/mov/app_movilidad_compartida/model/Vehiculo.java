@@ -1,12 +1,12 @@
 package com.mov.app_movilidad_compartida.model;
 
 public class Vehiculo {
+
     private String modelo;
     private String tipo;
     private String placa;
 
-    public Vehiculo() {
-    }
+    public Vehiculo() { }
 
     public Vehiculo(String modelo, String tipo, String placa) {
         this.modelo = modelo;
@@ -37,8 +37,9 @@ public class Vehiculo {
     public void setPlaca(String placa) {
         this.placa = placa;
     }
-    
-    public boolean validarPlaca (){
+
+
+    public boolean validarPlaca() {
         return placa != null && placa.matches("[A-Z]{3}-\\d{3}");
     }
 
@@ -46,5 +47,4 @@ public class Vehiculo {
     public String toString() {
         return "Vehiculo{" + "modelo=" + modelo + ", tipo=" + tipo + ", placa=" + placa + '}';
     }
-    
 }

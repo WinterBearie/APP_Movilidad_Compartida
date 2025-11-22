@@ -1,35 +1,24 @@
 package com.mov.app_movilidad_compartida.model;
 
-public class Conductor {
+public class Conductor extends Persona {
 
-    private String DNI; 
-    private String nombre;
+    private String dni;
     private String licencia;
-    private String correo;
-    private String contrasena;
 
-    public Conductor(String DNI, String nombre, String licencia, String correo, String contrasena) {
-        this.DNI = DNI;
-        this.nombre = nombre;
+    public Conductor() { }
+
+    public Conductor(String dni, String nombre, String licencia, String correo, String contrasena) {
+        super(nombre, correo, contrasena);
+        this.dni = dni;
         this.licencia = licencia;
-        this.correo = correo;
-        this.contrasena = contrasena;
     }
 
-    public String getDNI() {
-        return DNI;
+    public String getDni() {
+        return dni;
     }
 
-    public void setDNI(String DNI) {
-        this.DNI = DNI;
-    }
-
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public void setDni(String dni) {
+        this.dni = dni;
     }
 
     public String getLicencia() {
@@ -40,29 +29,15 @@ public class Conductor {
         this.licencia = licencia;
     }
 
-    public String getCorreo() {
-        return correo;
-    }
 
-    public void setCorreo(String correo) {
-        this.correo = correo;
-    }
-
-    public String getContrasena() {
-        return contrasena;
-    }
-
-    public void setContrasena(String contrasena) {
-        this.contrasena = contrasena;
-    }
-
-    public Conductor() {
-    }
-
-    public boolean validarLicencia() {
+    @Override
+    public boolean validarIdentificacion() {
         if (licencia == null) return false;
-        String licenciaUpper = licencia.toUpperCase();
-        return licenciaUpper.compareTo("AIIA") >= 0;
+        return licencia.toUpperCase().compareTo("AIIA") >= 0;
     }
 
+    @Override
+    public String toString() {
+        return "Conductor{" + "dni=" + dni + ", nombre=" + nombre + ", licencia=" + licencia + '}';
+    }
 }
