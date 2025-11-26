@@ -1,6 +1,6 @@
 package com.mov.app_movilidad_compartida.model;
 
-public class Estudiante extends Persona {
+public class Estudiante extends Persona implements IReporte {
 
     private String codigo;
     private String carrera;
@@ -39,5 +39,21 @@ public class Estudiante extends Persona {
     @Override
     public String toString() {
         return "Estudiante{" + "codigo=" + codigo + ", nombre=" + nombre + ", correo=" + correo + '}';
+    }
+    
+    @Override
+    public String generarReporte() {
+        return "-----------Reporte del Estudiante ----------\n" +
+               "Nombre            : " + getNombre() + "\n" +
+               "Código            : " + getCodigo() + "\n" +
+               "Correo            : " + getCorreo() + "\n" +
+               "Carrera           : " + getCarrera() + "\n" +
+               "Correo válido     : " + (getCorreo() != null && getCorreo().contains("@") ? "Sí" : "No") + "\n" +
+               "-------------------------------------------\n";
+}
+
+    @Override
+    public void imprimir() {
+        System.out.println(generarReporte());
     }
 }

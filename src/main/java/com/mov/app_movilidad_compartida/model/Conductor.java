@@ -1,6 +1,6 @@
 package com.mov.app_movilidad_compartida.model;
 
-public class Conductor extends Persona {
+public class Conductor extends Persona implements IReporte{
 
     private String dni;
     private String licencia;
@@ -39,5 +39,21 @@ public class Conductor extends Persona {
     @Override
     public String toString() {
         return "Conductor{" + "dni=" + dni + ", nombre=" + nombre + ", licencia=" + licencia + '}';
+    }
+    
+    @Override
+public String generarReporte() {
+    return "-----------Reporte del Conductor-----------\n" +
+           "Nombre            : " + getNombre() + "\n" +
+           "DNI               : " + getDni() + "\n" +
+           "Licencia          : " + getLicencia() + "\n" +
+           "Licencia válida   : " + (validarIdentificacion() ? "Sí" : "No") + "\n" +
+           "-------------------------------------------\n";
+}
+
+
+    @Override
+    public void imprimir() {
+        System.out.println(generarReporte());
     }
 }

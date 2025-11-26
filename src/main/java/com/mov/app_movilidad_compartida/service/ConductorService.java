@@ -33,6 +33,8 @@ public class ConductorService {
         if (conductor == null) return false;
         if (buscarPorCorreo(conductor.getCorreo()) != null) return false;
         conductores.add(conductor);
+        System.out.println();
+        conductor.imprimir();
         return true;
     }
 

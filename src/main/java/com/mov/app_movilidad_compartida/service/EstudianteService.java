@@ -37,6 +37,8 @@ public class EstudianteService {
         if (estudiante == null) return false;
         if (buscarPorCorreo(estudiante.getCorreo()) != null) return false;
         estudiantes.add(estudiante);
+        System.out.println();
+        estudiante.imprimir();
         return true;
     }
 
