@@ -1,6 +1,7 @@
 package com.mov.app_movilidad_compartida.service;
 
 import com.mov.app_movilidad_compartida.model.Conductor;
+import com.usil.util.GestorArchivos;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -8,6 +9,9 @@ import java.util.Scanner;
 public class ConductorService {
 
     private List<Conductor> conductores = new ArrayList<>();
+    
+    private GestorArchivos gestor = new GestorArchivos();
+    private static final String ARCHIVO = "conductores.txt";
 
     public Conductor crearConductorPorConsola(Scanner sc) {
         System.out.print("DNI: ");
@@ -33,6 +37,7 @@ public class ConductorService {
         if (conductor == null) return false;
         if (buscarPorCorreo(conductor.getCorreo()) != null) return false;
         conductores.add(conductor);
+        guardar();
         System.out.println();
         conductor.imprimir();
         return true;
@@ -52,4 +57,30 @@ public class ConductorService {
     }
 
     public void cerrarSesionConductor(Conductor conductor) { }
+    
+    public void guardar() {
+        gestor.guardar(ARCHIVO, conductores, c ->
+            c.getDni() + ";" +
+            c.getNombre() + ";" +
+            c.getLicencia() + ";" +
+            c.getCorreo() + ";" +
+            c.getContrasena()
+        );
+    }
+
+    public void cargar() {
+        gestor.cargar(ARCHIVO, line -> {
+            String[] p = line.split(";");
+            if (p.length == 5) {
+                conductores.add(new Conductor(
+                        p[0],
+                        p[1], 
+                        p[2], 
+                        p[3], 
+                        p[4]  
+                ));
+            }
+            return null;
+        });
+    }
 }

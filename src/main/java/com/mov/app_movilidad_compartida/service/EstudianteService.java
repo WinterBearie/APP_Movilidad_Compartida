@@ -2,6 +2,7 @@ package com.mov.app_movilidad_compartida.service;
 
 import com.mov.app_movilidad_compartida.model.Estudiante;
 import com.mov.app_movilidad_compartida.model.Ruta;
+import com.usil.util.GestorArchivos;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -10,6 +11,9 @@ public class EstudianteService {
 
     private List<Estudiante> estudiantes = new ArrayList<>();
     private RutaService rutaService;
+    
+    private GestorArchivos gestor = new GestorArchivos();
+    private static final String ARCHIVO = "estudiantes.txt";
 
     public void setRutaService(RutaService rutaService) { this.rutaService = rutaService; }
 
@@ -37,6 +41,7 @@ public class EstudianteService {
         if (estudiante == null) return false;
         if (buscarPorCorreo(estudiante.getCorreo()) != null) return false;
         estudiantes.add(estudiante);
+        guardar();
         System.out.println();
         estudiante.imprimir();
         return true;
@@ -68,5 +73,31 @@ public class EstudianteService {
             return;
         }
         for (Ruta r : rutas) System.out.println(r);
+    }
+    
+    public void guardar() {
+        gestor.guardar(ARCHIVO, estudiantes, e ->
+            e.getCodigo() + ";" +
+            e.getNombre() + ";" +
+            e.getCarrera() + ";" +
+            e.getCorreo() + ";" +
+            e.getContrasena()
+        );
+    }
+
+    public void cargar() {
+        gestor.cargar(ARCHIVO, line -> {
+            String[] p = line.split(";");
+            if (p.length == 5) {
+                estudiantes.add(new Estudiante(
+                        p[0],
+                        p[1], 
+                        p[2], 
+                        p[3], 
+                        p[4]  
+                ));
+            }
+            return null;
+        });
     }
 }
