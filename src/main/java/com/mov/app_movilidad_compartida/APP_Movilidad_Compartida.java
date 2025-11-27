@@ -1,8 +1,5 @@
 package com.mov.app_movilidad_compartida;
 
-import com.mov.app_movilidad_compartida.model.Conductor;
-import com.mov.app_movilidad_compartida.model.Estudiante;
-import com.mov.app_movilidad_compartida.model.Ruta;
 import com.mov.app_movilidad_compartida.service.ConductorService;
 import com.mov.app_movilidad_compartida.service.EstudianteService;
 import com.mov.app_movilidad_compartida.service.RutaService;
@@ -20,8 +17,13 @@ public class APP_Movilidad_Compartida {
         }
 
         // Cargar datos desde archivos al iniciar
-        EstudianteService.getInstance().cargar();
-        ConductorService.getInstance().cargar();
+        EstudianteService es = EstudianteService.getInstance();
+        es.cargar();
+        VehiculoService vs = VehiculoService.getInstance();
+        vs.cargar();
+        ConductorService cs = ConductorService.getInstance();
+        cs.cargar(vs);
+        RutaService.getInstance().cargar(cs, vs, es);
 
         // Iniciar formulario principal desde el paquete ui
         SwingUtilities.invokeLater(() -> {

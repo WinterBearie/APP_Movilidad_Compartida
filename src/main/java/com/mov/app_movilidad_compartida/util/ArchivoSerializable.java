@@ -1,4 +1,4 @@
-package com.usil.util;
+package com.mov.app_movilidad_compartida.util;
 
 /**
  * Interfaz para objetos que pueden ser serializados a archivos de texto

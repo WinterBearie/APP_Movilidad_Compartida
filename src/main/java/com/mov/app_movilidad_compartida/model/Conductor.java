@@ -4,6 +4,7 @@ public class Conductor extends Persona implements IReporte{
 
     private String dni;
     private String licencia;
+    private Vehiculo vehiculo;
 
     public Conductor() { }
 
@@ -29,6 +30,14 @@ public class Conductor extends Persona implements IReporte{
         this.licencia = licencia;
     }
 
+    public Vehiculo getVehiculo() {
+        return vehiculo;
+    }
+
+    public void setVehiculo(Vehiculo vehiculo) {
+        this.vehiculo = vehiculo;
+    }
+
 
     @Override
     public boolean validarIdentificacion() {
@@ -40,7 +49,7 @@ public class Conductor extends Persona implements IReporte{
     public String toString() {
         return "Conductor{" + "dni=" + dni + ", nombre=" + nombre + ", licencia=" + licencia + '}';
     }
-    
+
     @Override
 public String generarReporte() {
     return "-----------Reporte del Conductor-----------\n" +
@@ -48,6 +57,7 @@ public String generarReporte() {
            "DNI               : " + getDni() + "\n" +
            "Licencia          : " + getLicencia() + "\n" +
            "Licencia válida   : " + (validarIdentificacion() ? "Sí" : "No") + "\n" +
+           "Vehículo Asignado  : " + (vehiculo != null ? vehiculo.toString() : "No asignado") + "\n" +
            "-------------------------------------------\n";
 }
 
@@ -56,7 +66,7 @@ public String generarReporte() {
     public void imprimir() {
         System.out.println(generarReporte());
     }
-    
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;
@@ -64,7 +74,7 @@ public String generarReporte() {
         Conductor conductor = (Conductor) obj;
         return correo != null && correo.equalsIgnoreCase(conductor.correo);
     }
-    
+
     @Override
     public int hashCode() {
         return correo != null ? correo.toLowerCase().hashCode() : 0;

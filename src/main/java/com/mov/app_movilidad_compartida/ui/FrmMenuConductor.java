@@ -13,7 +13,7 @@ import java.util.List;
 public class FrmMenuConductor extends javax.swing.JFrame {
 
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(FrmMenuConductor.class.getName());
-    
+
     private Conductor conductor;
     private Vehiculo vehiculo;
     private VehiculoService vehiculoService;
@@ -24,9 +24,8 @@ public class FrmMenuConductor extends javax.swing.JFrame {
         getContentPane().setBackground(Color.WHITE);
         this.vehiculoService = VehiculoService.getInstance();
         this.rutaService = RutaService.getInstance();
-        this.rutaService.setVehiculoService(vehiculoService);
     }
-    
+
     public FrmMenuConductor(Conductor conductor) {
         this();
         this.conductor = conductor;
@@ -36,7 +35,7 @@ public class FrmMenuConductor extends javax.swing.JFrame {
         cargarVehiculo();
         cargarRutas();
     }
-    
+
     private void cargarVehiculo() {
         // Try to find vehicle from driver's routes
         if (conductor != null) {
@@ -48,20 +47,20 @@ public class FrmMenuConductor extends javax.swing.JFrame {
                 }
             }
         }
-        
+
         // If vehicle found, display it
         if (vehiculo != null) {
             txtModelo.setText(vehiculo.getModelo());
             txtPlaca.setText(vehiculo.getPlaca());
         }
     }
-    
+
     private void cargarRutas() {
         DefaultTableModel model = (DefaultTableModel) tblRuta.getModel();
         model.setRowCount(0);
-        
+
         if (conductor == null) return;
-        
+
         List<Ruta> rutas = rutaService.getRutasPorConductor(conductor);
         for (Ruta r : rutas) {
             Object[] row = {
@@ -75,7 +74,7 @@ public class FrmMenuConductor extends javax.swing.JFrame {
             };
             model.addRow(row);
         }
-        
+
         lblTotal.setText(String.valueOf(rutas.size()));
     }
 
@@ -141,7 +140,7 @@ public class FrmMenuConductor extends javax.swing.JFrame {
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
             }
-            
+
             @Override
             public boolean isCellEditable(int row, int column) {
                 return false;
@@ -240,25 +239,25 @@ public class FrmMenuConductor extends javax.swing.JFrame {
 
     private void btnVehiculoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVehiculoActionPerformed
         // Get vehicle details from user
-        String modelo = JOptionPane.showInputDialog(this, "Ingrese el modelo del vehículo:", 
+        String modelo = JOptionPane.showInputDialog(this, "Ingrese el modelo del vehículo:",
             vehiculo != null ? vehiculo.getModelo() : "");
         if (modelo == null || modelo.trim().isEmpty()) return;
-        
-        String tipo = JOptionPane.showInputDialog(this, "Ingrese el tipo del vehículo (ej: Sedan, SUV, etc.):", 
+
+        String tipo = JOptionPane.showInputDialog(this, "Ingrese el tipo del vehículo (ej: Sedan, SUV, etc.):",
             vehiculo != null ? vehiculo.getTipo() : "");
         if (tipo == null || tipo.trim().isEmpty()) return;
-        
-        String placa = JOptionPane.showInputDialog(this, "Ingrese la placa del vehículo (formato: ABC-123):", 
+
+        String placa = JOptionPane.showInputDialog(this, "Ingrese la placa del vehículo (formato: ABC-123):",
             vehiculo != null ? vehiculo.getPlaca() : "");
         if (placa == null || placa.trim().isEmpty()) return;
-        
+
         // Check if vehicle with this plate already exists
         Vehiculo vehiculoExistente = vehiculoService.buscarPorPlaca(placa);
         if (vehiculoExistente != null && (vehiculo == null || !vehiculoExistente.getPlaca().equals(vehiculo.getPlaca()))) {
             JOptionPane.showMessageDialog(this, "Ya existe un vehículo con esta placa", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        
+
         // Create or update vehicle
         if (vehiculo == null) {
             boolean exito = vehiculoService.registrarVehiculo(modelo, tipo, placa);
@@ -286,12 +285,12 @@ public class FrmMenuConductor extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Debe registrar un vehículo antes de crear una ruta", "Advertencia", JOptionPane.WARNING_MESSAGE);
             return;
         }
-        
+
         if (conductor == null) {
             JOptionPane.showMessageDialog(this, "Error: No hay conductor asociado", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        
+
         FrmRegisterRuta frmRegisterRuta = new FrmRegisterRuta(conductor, vehiculo, rutaService);
         this.setVisible(false);
         frmRegisterRuta.addWindowListener(new java.awt.event.WindowAdapter() {
@@ -320,7 +319,7 @@ public class FrmMenuConductor extends javax.swing.JFrame {
     private void tblRutaMouseClicked(java.awt.event.MouseEvent evt) {
         int row = tblRuta.getSelectedRow();
         if (row < 0) return;
-        
+
         int col = tblRuta.getSelectedColumn();
         // If clicked on "Acciones" column (index 6) or anywhere in the row
         if (col == 6 || col >= 0) {

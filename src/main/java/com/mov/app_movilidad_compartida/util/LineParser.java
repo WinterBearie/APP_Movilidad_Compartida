@@ -1,4 +1,4 @@
-package com.usil.util;
+package com.mov.app_movilidad_compartida.util;
 
 /**
  * Interfaz funcional para parsear líneas de archivo a objetos

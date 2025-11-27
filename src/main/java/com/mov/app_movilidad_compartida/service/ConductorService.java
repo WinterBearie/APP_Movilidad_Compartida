@@ -1,7 +1,8 @@
 package com.mov.app_movilidad_compartida.service;
 
 import com.mov.app_movilidad_compartida.model.Conductor;
-import com.usil.util.GestorArchivos;
+import com.mov.app_movilidad_compartida.model.Vehiculo;
+import com.mov.app_movilidad_compartida.util.GestorArchivos;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -10,10 +11,10 @@ public class ConductorService {
 
     private static ConductorService instancia;
     private List<Conductor> conductores = new ArrayList<>();
-    
+
     private GestorArchivos gestor = new GestorArchivos();
     private static final String ARCHIVO = "conductores.txt";
-    
+
     private ConductorService() {
         this.conductores = new ArrayList<>();
         this.gestor = new GestorArchivos();
@@ -63,6 +64,13 @@ public class ConductorService {
         return null;
     }
 
+    public Conductor buscarPorDni(String dni) {
+        for (Conductor c : conductores) {
+            if (c.getDni().equalsIgnoreCase(dni)) return c;
+        }
+        return null;
+    }
+
     public Conductor iniciarSesionConductor(String correo, String contrasena) {
         Conductor c = buscarPorCorreo(correo);
         if (c != null && c.getContrasena().equals(contrasena)) return c;
@@ -70,7 +78,7 @@ public class ConductorService {
     }
 
     public void cerrarSesionConductor(Conductor conductor) { }
-    
+
     public void guardar() {
         gestor.guardar(ARCHIVO, conductores, c ->
             c.getDni() + ";" +
@@ -81,13 +89,21 @@ public class ConductorService {
         );
     }
 
-    public void cargar() {
+    public void cargar(VehiculoService vehiculoService) {
         gestor.cargar(ARCHIVO, line -> {
             String[] p = line.split(";");
-            if (p.length == 5) {
+            if (p.length == 6) {
                 Conductor c = new Conductor(p[0], p[1], p[2], p[3], p[4]);
                 if (buscarPorCorreo(c.getCorreo()) == null) {
                     conductores.add(c);
+                }
+
+                String placaVehiculo = p[5];
+                if (vehiculoService != null && placaVehiculo != null && !placaVehiculo.isEmpty()) {
+                    Vehiculo v = vehiculoService.buscarPorPlaca(placaVehiculo);
+                    if (v != null) {
+                        c.setVehiculo(v);
+                    }
                 }
             }
             return null;
