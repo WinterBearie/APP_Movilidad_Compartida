@@ -29,6 +29,7 @@ public class FrmPasajeroList extends javax.swing.JFrame {
     public FrmPasajeroList(Ruta ruta) {
         this();
         this.ruta = ruta;
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         cargarDatos();
     }
     
@@ -73,7 +74,7 @@ public class FrmPasajeroList extends javax.swing.JFrame {
         lblFrase2.setForeground(new java.awt.Color(0, 102, 153));
         lblFrase2.setText("RUTANAME");
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         lblFrase1.setFont(new java.awt.Font("Xingkai TC", 1, 24)); // NOI18N
         lblFrase1.setForeground(new java.awt.Color(0, 102, 153));

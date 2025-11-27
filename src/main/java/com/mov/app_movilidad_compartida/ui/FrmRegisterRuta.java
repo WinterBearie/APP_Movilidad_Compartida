@@ -9,9 +9,9 @@ import com.mov.app_movilidad_compartida.service.RutaService;
 
 
 public class FrmRegisterRuta extends javax.swing.JFrame {
-    
+
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(FrmRegisterRuta.class.getName());
-    
+
     private Conductor conductor;
     private Vehiculo vehiculo;
     private RutaService rutaService;
@@ -20,7 +20,7 @@ public class FrmRegisterRuta extends javax.swing.JFrame {
         initComponents();
         getContentPane().setBackground(Color.WHITE);
     }
-    
+
     public FrmRegisterRuta(Conductor conductor, Vehiculo vehiculo, RutaService rutaService) {
         this();
         this.conductor = conductor;
@@ -46,6 +46,8 @@ public class FrmRegisterRuta extends javax.swing.JFrame {
         btnRegresar = new javax.swing.JButton();
         lblCorreo1 = new javax.swing.JLabel();
         txtCosto = new javax.swing.JTextField();
+        txtSalida = new javax.swing.JTextField();
+        lblCorreo2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
@@ -120,34 +122,47 @@ public class FrmRegisterRuta extends javax.swing.JFrame {
             }
         });
 
+        txtSalida.setFont(new java.awt.Font("K2D", 0, 14)); // NOI18N
+        txtSalida.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtSalidaActionPerformed(evt);
+            }
+        });
+
+        lblCorreo2.setFont(new java.awt.Font("K2D", 1, 14)); // NOI18N
+        lblCorreo2.setText("Horario");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(41, 41, 41)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(lblFrase1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblNombre)
-                            .addComponent(lblCodigo)
-                            .addComponent(jLabel1)
-                            .addComponent(lblCorreo)
-                            .addComponent(lblCorreo1))
-                        .addGap(15, 15, 15)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(btnCrear, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnRegresar))
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(txtCosto)
-                                .addComponent(txtAforo)
-                                .addComponent(txtDestino)
-                                .addComponent(txtPartida, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 229, Short.MAX_VALUE)
-                                .addComponent(txtRuta, javax.swing.GroupLayout.Alignment.TRAILING)))))
-                .addContainerGap(70, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblCorreo2)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(lblFrase1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createSequentialGroup()
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(lblNombre)
+                                .addComponent(lblCodigo)
+                                .addComponent(jLabel1)
+                                .addComponent(lblCorreo)
+                                .addComponent(lblCorreo1))
+                            .addGap(15, 15, 15)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                    .addComponent(btnCrear, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(btnRegresar))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txtCosto)
+                                    .addComponent(txtAforo)
+                                    .addComponent(txtDestino)
+                                    .addComponent(txtPartida, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 293, Short.MAX_VALUE)
+                                    .addComponent(txtRuta, javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(txtSalida, javax.swing.GroupLayout.Alignment.TRAILING))))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -174,11 +189,15 @@ public class FrmRegisterRuta extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblCorreo1)
                     .addComponent(txtCosto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(26, 26, 26)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblCorreo2)
+                    .addComponent(txtSalida, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnCrear, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnRegresar, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(34, Short.MAX_VALUE))
+                .addGap(15, 15, 15))
         );
 
         pack();
@@ -194,13 +213,14 @@ public class FrmRegisterRuta extends javax.swing.JFrame {
         String destino = txtDestino.getText().trim();
         String aforoStr = txtAforo.getText().trim();
         String costoStr = txtCosto.getText().trim();
+        String horaSalida = txtSalida.getText().trim();
 
         // Validate all fields are filled
-        if (idRuta.isEmpty() || puntoPartida.isEmpty() || destino.isEmpty() || aforoStr.isEmpty() || costoStr.isEmpty()) {
+        if (idRuta.isEmpty() || puntoPartida.isEmpty() || destino.isEmpty() || aforoStr.isEmpty() || costoStr.isEmpty() || horaSalida.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Completa todos los campos", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        
+
         // Validate numeric fields
         int aforo;
         double costo;
@@ -214,7 +234,7 @@ public class FrmRegisterRuta extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "El aforo debe ser un número válido", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        
+
         try {
             costo = Double.parseDouble(costoStr);
             if (costo < 0) {
@@ -225,38 +245,38 @@ public class FrmRegisterRuta extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "El costo debe ser un número válido", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        
-        // Get departure time (hora de salida)
-        String horaSalida = JOptionPane.showInputDialog(this, "Ingrese la hora de salida (formato: HH:mm):", "08:00");
-        if (horaSalida == null || horaSalida.trim().isEmpty()) {
-            horaSalida = "08:00"; // Default time
+
+        // Validate time format (HH:MM)
+        if (!horaSalida.matches("^([01]?\\d|2[0-3]):[0-5]\\d$")) {
+            JOptionPane.showMessageDialog(this, "El horario debe tener el formato HH:MM", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
         }
-        
+
         // Validate conductor and vehicle
         if (conductor == null || vehiculo == null) {
             JOptionPane.showMessageDialog(this, "Error: Conductor o vehículo no válido", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        
+
         // Check if route ID already exists
         if (rutaService.buscarRutaPorId(idRuta) != null) {
             JOptionPane.showMessageDialog(this, "Ya existe una ruta con este ID", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        
+
         // Create route
         Ruta ruta = new Ruta(idRuta, puntoPartida, destino, horaSalida, aforo, costo, conductor, vehiculo);
         rutaService.registrarRuta(ruta);
-        
+
         JOptionPane.showMessageDialog(this, "Ruta registrada exitosamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-        
+
         // Clear fields
         txtRuta.setText("");
         txtPartida.setText("");
         txtDestino.setText("");
         txtAforo.setText("");
         txtCosto.setText("");
-        
+
         // Close window
         this.dispose();
     }//GEN-LAST:event_btnCrearActionPerformed
@@ -281,6 +301,10 @@ public class FrmRegisterRuta extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtCostoActionPerformed
 
+    private void txtSalidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSalidaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtSalidaActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -288,7 +312,7 @@ public class FrmRegisterRuta extends javax.swing.JFrame {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
@@ -313,6 +337,7 @@ public class FrmRegisterRuta extends javax.swing.JFrame {
     private javax.swing.JLabel lblCodigo;
     private javax.swing.JLabel lblCorreo;
     private javax.swing.JLabel lblCorreo1;
+    private javax.swing.JLabel lblCorreo2;
     private javax.swing.JLabel lblFrase1;
     private javax.swing.JLabel lblNombre;
     private javax.swing.JTextField txtAforo;
@@ -320,5 +345,6 @@ public class FrmRegisterRuta extends javax.swing.JFrame {
     private javax.swing.JTextField txtDestino;
     private javax.swing.JTextField txtPartida;
     private javax.swing.JTextField txtRuta;
+    private javax.swing.JTextField txtSalida;
     // End of variables declaration//GEN-END:variables
 }

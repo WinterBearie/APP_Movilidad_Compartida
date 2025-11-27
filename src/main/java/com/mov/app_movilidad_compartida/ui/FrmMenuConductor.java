@@ -47,8 +47,9 @@ public class FrmMenuConductor extends javax.swing.JFrame {
         if (vehiculo == null)
             return;
 
-        txtModelo.setText(vehiculo.getModelo());
-        txtPlaca.setText(vehiculo.getPlaca());
+        txtModelo.setText(vehiculo.getModelo() != null ? vehiculo.getModelo() : "");
+        txtPlaca.setText(vehiculo.getPlaca() != null ? vehiculo.getPlaca() : "");
+        txtTipo.setText(vehiculo.getTipo() != null ? vehiculo.getTipo() : "");
     }
 
     private void cargarRutas() {
@@ -139,6 +140,16 @@ public class FrmMenuConductor extends javax.swing.JFrame {
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
+            }
+
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        });
+        tblRuta.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblRutaMouseClicked(evt);
             }
         });
         jScrollPane1.setViewportView(tblRuta);
@@ -236,19 +247,20 @@ public class FrmMenuConductor extends javax.swing.JFrame {
         String placa = txtPlaca.getText().trim();
         String tipo = txtTipo.getText().trim();
 
-        if (placa != null && !placa.isEmpty()) {
+        // Validate all fields are filled
+        if (placa == null || placa.isEmpty()) {
             JOptionPane.showMessageDialog(this,
                     "Debe completar todos los campos", "Error",
                     JOptionPane.ERROR_MESSAGE);
             return;
         }
-        if (modelo != null && !modelo.isEmpty()) {
+        if (modelo == null || modelo.isEmpty()) {
             JOptionPane.showMessageDialog(this,
                     "Debe completar todos los campos", "Error",
                     JOptionPane.ERROR_MESSAGE);
             return;
         }
-        if (tipo != null && !tipo.isEmpty()) {
+        if (tipo == null || tipo.isEmpty()) {
             JOptionPane.showMessageDialog(this,
                     "Debe completar todos los campos", "Error",
                     JOptionPane.ERROR_MESSAGE);
@@ -256,15 +268,21 @@ public class FrmMenuConductor extends javax.swing.JFrame {
         }
 
         if (vehiculo == null) {
+            // Register new vehicle
             String error = vehiculoService.registrarVehiculo(modelo, tipo, placa);
             if (!error.isEmpty()) {
                 JOptionPane.showMessageDialog(this, error, "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
 
-            conductorService.asociarVehiculoAConductor(conductor, vehiculoService.buscarPorPlaca(placa));
+            // Get the registered vehicle and associate it with the driver
+            vehiculo = vehiculoService.buscarPorPlaca(placa);
+            if (vehiculo != null) {
+                conductorService.asociarVehiculoAConductor(conductor, vehiculo);
+                JOptionPane.showMessageDialog(this, "Vehículo registrado exitosamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+            }
         } else {
-            // Check if the placa esta asociado a otro conductor
+            // Check if the placa is associated to another conductor
             Conductor conductorAsociado = conductorService.buscarPorPlacaVehiculo(placa);
             if (conductorAsociado != null && !conductorAsociado.getDni().equals(conductor.getDni())) {
                 JOptionPane.showMessageDialog(this,
@@ -273,11 +291,13 @@ public class FrmMenuConductor extends javax.swing.JFrame {
                 return;
             }
 
+            // Update existing vehicle
             vehiculo.setModelo(modelo);
             vehiculo.setTipo(tipo);
             vehiculo.setPlaca(placa);
             vehiculoService.guardar();
             conductorService.guardar();
+            JOptionPane.showMessageDialog(this, "Vehículo actualizado exitosamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
         }
     }// GEN-LAST:event_btnVehiculoActionPerformed
 
