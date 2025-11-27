@@ -96,18 +96,18 @@ public class FrmRegister extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnPrincipalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrincipalActionPerformed
-        FrmRegister frmLogin = new FrmRegister();
-        frmLogin.setVisible(true);
+        FrmPrincipal frmPrincipal = new FrmPrincipal();
+        frmPrincipal.setVisible(true);
     }//GEN-LAST:event_btnPrincipalActionPerformed
 
     private void btnLoginEActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginEActionPerformed
-        FrmRegisterE frmLoginE = new FrmRegisterE();
-        frmLoginE.setVisible(true);
+        FrmRegisterE frmRegisterE = new FrmRegisterE();
+        frmRegisterE.setVisible(true);
     }//GEN-LAST:event_btnLoginEActionPerformed
 
     private void btnLoginCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginCActionPerformed
-        FrmRegisterC frmLoginC = new FrmRegisterC();
-        frmLoginC.setVisible(true);
+        FrmRegisterC frmRegisterC = new FrmRegisterC();
+        frmRegisterC.setVisible(true);
     }//GEN-LAST:event_btnLoginCActionPerformed
 
 
