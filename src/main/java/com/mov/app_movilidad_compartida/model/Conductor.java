@@ -56,4 +56,17 @@ public String generarReporte() {
     public void imprimir() {
         System.out.println(generarReporte());
     }
+    
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        Conductor conductor = (Conductor) obj;
+        return correo != null && correo.equalsIgnoreCase(conductor.correo);
+    }
+    
+    @Override
+    public int hashCode() {
+        return correo != null ? correo.toLowerCase().hashCode() : 0;
+    }
 }

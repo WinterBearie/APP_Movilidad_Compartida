@@ -1,14 +1,82 @@
 package com.mov.app_movilidad_compartida.ui;
 
 import java.awt.Color;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import com.mov.app_movilidad_compartida.model.Conductor;
+import com.mov.app_movilidad_compartida.model.Vehiculo;
+import com.mov.app_movilidad_compartida.model.Ruta;
+import com.mov.app_movilidad_compartida.service.VehiculoService;
+import com.mov.app_movilidad_compartida.service.RutaService;
+import java.util.List;
 
 public class FrmMenuConductor extends javax.swing.JFrame {
 
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(FrmMenuConductor.class.getName());
+    
+    private Conductor conductor;
+    private Vehiculo vehiculo;
+    private VehiculoService vehiculoService;
+    private RutaService rutaService;
 
     public FrmMenuConductor() {
         initComponents();
         getContentPane().setBackground(Color.WHITE);
+        this.vehiculoService = VehiculoService.getInstance();
+        this.rutaService = RutaService.getInstance();
+        this.rutaService.setVehiculoService(vehiculoService);
+    }
+    
+    public FrmMenuConductor(Conductor conductor) {
+        this();
+        this.conductor = conductor;
+        if (conductor != null) {
+            lblUsername.setText(conductor.getNombre());
+        }
+        cargarVehiculo();
+        cargarRutas();
+    }
+    
+    private void cargarVehiculo() {
+        // Try to find vehicle from driver's routes
+        if (conductor != null) {
+            List<Ruta> rutas = rutaService.getRutasPorConductor(conductor);
+            for (Ruta r : rutas) {
+                if (r.getVehiculo() != null) {
+                    vehiculo = r.getVehiculo();
+                    break;
+                }
+            }
+        }
+        
+        // If vehicle found, display it
+        if (vehiculo != null) {
+            txtModelo.setText(vehiculo.getModelo());
+            txtPlaca.setText(vehiculo.getPlaca());
+        }
+    }
+    
+    private void cargarRutas() {
+        DefaultTableModel model = (DefaultTableModel) tblRuta.getModel();
+        model.setRowCount(0);
+        
+        if (conductor == null) return;
+        
+        List<Ruta> rutas = rutaService.getRutasPorConductor(conductor);
+        for (Ruta r : rutas) {
+            Object[] row = {
+                r.getIdRuta(),
+                r.getCosto(),
+                r.getPuntoPartida(),
+                r.getDestino(),
+                r.getHoraSalida(),
+                r.getEstudiantes().size(),
+                "Ver Pasajeros"
+            };
+            model.addRow(row);
+        }
+        
+        lblTotal.setText(String.valueOf(rutas.size()));
     }
 
     @SuppressWarnings("unchecked")
@@ -72,6 +140,16 @@ public class FrmMenuConductor extends javax.swing.JFrame {
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
+            }
+            
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        });
+        tblRuta.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblRutaMouseClicked(evt);
             }
         });
         jScrollPane1.setViewportView(tblRuta);
@@ -161,12 +239,74 @@ public class FrmMenuConductor extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnVehiculoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVehiculoActionPerformed
-        FrmRegister frmLogin = new FrmRegister();
-        frmLogin.setVisible(true);
+        // Get vehicle details from user
+        String modelo = JOptionPane.showInputDialog(this, "Ingrese el modelo del vehículo:", 
+            vehiculo != null ? vehiculo.getModelo() : "");
+        if (modelo == null || modelo.trim().isEmpty()) return;
+        
+        String tipo = JOptionPane.showInputDialog(this, "Ingrese el tipo del vehículo (ej: Sedan, SUV, etc.):", 
+            vehiculo != null ? vehiculo.getTipo() : "");
+        if (tipo == null || tipo.trim().isEmpty()) return;
+        
+        String placa = JOptionPane.showInputDialog(this, "Ingrese la placa del vehículo (formato: ABC-123):", 
+            vehiculo != null ? vehiculo.getPlaca() : "");
+        if (placa == null || placa.trim().isEmpty()) return;
+        
+        // Check if vehicle with this plate already exists
+        Vehiculo vehiculoExistente = vehiculoService.buscarPorPlaca(placa);
+        if (vehiculoExistente != null && (vehiculo == null || !vehiculoExistente.getPlaca().equals(vehiculo.getPlaca()))) {
+            JOptionPane.showMessageDialog(this, "Ya existe un vehículo con esta placa", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        // Create or update vehicle
+        if (vehiculo == null) {
+            boolean exito = vehiculoService.registrarVehiculo(modelo, tipo, placa);
+            if (exito) {
+                vehiculo = vehiculoService.buscarPorPlaca(placa);
+                txtModelo.setText(modelo);
+                txtPlaca.setText(placa);
+                JOptionPane.showMessageDialog(this, "Vehículo registrado exitosamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(this, "Error al registrar el vehículo. Verifique el formato de la placa (ABC-123)", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        } else {
+            // Update existing vehicle
+            vehiculo.setModelo(modelo);
+            vehiculo.setTipo(tipo);
+            vehiculo.setPlaca(placa);
+            txtModelo.setText(modelo);
+            txtPlaca.setText(placa);
+            JOptionPane.showMessageDialog(this, "Vehículo actualizado exitosamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+        }
     }//GEN-LAST:event_btnVehiculoActionPerformed
 
     private void btnRutaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRutaActionPerformed
-        // TODO add your handling code here:
+        if (vehiculo == null) {
+            JOptionPane.showMessageDialog(this, "Debe registrar un vehículo antes de crear una ruta", "Advertencia", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        
+        if (conductor == null) {
+            JOptionPane.showMessageDialog(this, "Error: No hay conductor asociado", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        FrmRegisterRuta frmRegisterRuta = new FrmRegisterRuta(conductor, vehiculo, rutaService);
+        this.setVisible(false);
+        frmRegisterRuta.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosed(java.awt.event.WindowEvent e) {
+                FrmMenuConductor.this.setVisible(true);
+                cargarRutas();
+            }
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent e) {
+                FrmMenuConductor.this.setVisible(true);
+                cargarRutas();
+            }
+        });
+        frmRegisterRuta.setVisible(true);
     }//GEN-LAST:event_btnRutaActionPerformed
 
     private void txtModeloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtModeloActionPerformed
@@ -176,6 +316,24 @@ public class FrmMenuConductor extends javax.swing.JFrame {
     private void txtPlacaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPlacaActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtPlacaActionPerformed
+
+    private void tblRutaMouseClicked(java.awt.event.MouseEvent evt) {
+        int row = tblRuta.getSelectedRow();
+        if (row < 0) return;
+        
+        int col = tblRuta.getSelectedColumn();
+        // If clicked on "Acciones" column (index 6) or anywhere in the row
+        if (col == 6 || col >= 0) {
+            String idRuta = (String) tblRuta.getValueAt(row, 0);
+            if (idRuta != null && conductor != null) {
+                Ruta ruta = rutaService.buscarRutaPorId(idRuta);
+                if (ruta != null && ruta.getConductor() != null && ruta.getConductor().equals(conductor)) {
+                    FrmPasajeroList frmPasajeroList = new FrmPasajeroList(ruta);
+                    frmPasajeroList.setVisible(true);
+                }
+            }
+        }
+    }
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

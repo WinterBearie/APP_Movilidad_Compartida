@@ -1,19 +1,32 @@
 package com.mov.app_movilidad_compartida.ui;
 
 import java.awt.Color;
-import java.io.FileWriter;
 import javax.swing.JOptionPane;
-import com.mov.app_movilidad_compartida.model.Estudiante;
-import com.mov.app_movilidad_compartida.service.EstudianteService;
+import com.mov.app_movilidad_compartida.model.Conductor;
+import com.mov.app_movilidad_compartida.model.Vehiculo;
+import com.mov.app_movilidad_compartida.model.Ruta;
+import com.mov.app_movilidad_compartida.service.RutaService;
 
 
 public class FrmRegisterRuta extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(FrmRegisterRuta.class.getName());
+    
+    private Conductor conductor;
+    private Vehiculo vehiculo;
+    private RutaService rutaService;
 
     public FrmRegisterRuta() {
         initComponents();
         getContentPane().setBackground(Color.WHITE);
+    }
+    
+    public FrmRegisterRuta(Conductor conductor, Vehiculo vehiculo, RutaService rutaService) {
+        this();
+        this.conductor = conductor;
+        this.vehiculo = vehiculo;
+        this.rutaService = rutaService;
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
     }
 
     @SuppressWarnings("unchecked")
@@ -176,39 +189,80 @@ public class FrmRegisterRuta extends javax.swing.JFrame {
     }//GEN-LAST:event_txtRutaActionPerformed
 
     private void btnCrearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearActionPerformed
-        String codigo = txtRuta.getText();
-        String nombre = txtPartida.getText();
-        String carrera = txtDestino.getText();
-        String correo = txtAforo.getText();
-        String clave = new String(PswContraseña.getPassword());
+        String idRuta = txtRuta.getText().trim();
+        String puntoPartida = txtPartida.getText().trim();
+        String destino = txtDestino.getText().trim();
+        String aforoStr = txtAforo.getText().trim();
+        String costoStr = txtCosto.getText().trim();
 
-        if (codigo.isEmpty() || nombre.isEmpty() || correo.isEmpty() || clave.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Completa todos los campos");
+        // Validate all fields are filled
+        if (idRuta.isEmpty() || puntoPartida.isEmpty() || destino.isEmpty() || aforoStr.isEmpty() || costoStr.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Completa todos los campos", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
         
-        Estudiante e = new Estudiante(codigo, nombre, carrera, correo, clave);
-
-        if (!e.validarIdentificacion()) {
-            JOptionPane.showMessageDialog(this, "El correo no es institucional (@usil.pe o @usil.edu.pe)");
+        // Validate numeric fields
+        int aforo;
+        double costo;
+        try {
+            aforo = Integer.parseInt(aforoStr);
+            if (aforo <= 0) {
+                JOptionPane.showMessageDialog(this, "El aforo debe ser mayor a 0", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "El aforo debe ser un número válido", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
         
-        boolean exito = EstudianteService.getInstance().registrarEstudiante(e);
-
-        if (!exito) {
-            JOptionPane.showMessageDialog(this, "Ya existe un estudiante con este correo", "Error", JOptionPane.ERROR_MESSAGE);
-        } else {
-            
-            JOptionPane.showMessageDialog(this, e.generarReporte(), "Reporte del Estudiante", JOptionPane.INFORMATION_MESSAGE);
-            JOptionPane.showMessageDialog(this, "Estudiante registrado exitosamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+        try {
+            costo = Double.parseDouble(costoStr);
+            if (costo < 0) {
+                JOptionPane.showMessageDialog(this, "El costo no puede ser negativo", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "El costo debe ser un número válido", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
         }
-
+        
+        // Get departure time (hora de salida)
+        String horaSalida = JOptionPane.showInputDialog(this, "Ingrese la hora de salida (formato: HH:mm):", "08:00");
+        if (horaSalida == null || horaSalida.trim().isEmpty()) {
+            horaSalida = "08:00"; // Default time
+        }
+        
+        // Validate conductor and vehicle
+        if (conductor == null || vehiculo == null) {
+            JOptionPane.showMessageDialog(this, "Error: Conductor o vehículo no válido", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        // Check if route ID already exists
+        if (rutaService.buscarRutaPorId(idRuta) != null) {
+            JOptionPane.showMessageDialog(this, "Ya existe una ruta con este ID", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        // Create route
+        Ruta ruta = new Ruta(idRuta, puntoPartida, destino, horaSalida, aforo, costo, conductor, vehiculo);
+        rutaService.registrarRuta(ruta);
+        
+        JOptionPane.showMessageDialog(this, "Ruta registrada exitosamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+        
+        // Clear fields
+        txtRuta.setText("");
+        txtPartida.setText("");
+        txtDestino.setText("");
+        txtAforo.setText("");
+        txtCosto.setText("");
+        
+        // Close window
+        this.dispose();
     }//GEN-LAST:event_btnCrearActionPerformed
 
     private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
-        FrmPrincipal frmPrincipal = new FrmPrincipal();
-        frmPrincipal.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnRegresarActionPerformed
 
     private void txtPartidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPartidaActionPerformed

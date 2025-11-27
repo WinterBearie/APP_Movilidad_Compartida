@@ -40,6 +40,17 @@ public class RutaService {
         return null;
     }
 
+    private RutaService() {
+        this.rutas = new ArrayList<>();
+    }
+    
+    public static RutaService getInstance() {
+        if (instancia == null) {
+            instancia = new RutaService();
+        }
+        return instancia;
+    }
+
     public void setVehiculoService(VehiculoService vehiculoService) { this.vehiculoService = vehiculoService; }
 
     public void registrarRuta(Ruta ruta) {
@@ -126,6 +137,16 @@ public class RutaService {
             }
         }
         if (!found) System.out.println("El conductor no tiene rutas asignadas");
+    }
+
+    public List<Ruta> getRutasPorConductor(Conductor conductor) {
+        List<Ruta> resultado = new ArrayList<>();
+        for (Ruta r : rutas) {
+            if (r.getConductor() != null && r.getConductor().equals(conductor)) {
+                resultado.add(r);
+            }
+        }
+        return resultado;
     }
 
     public void verPasajerosPorConductor(Conductor conductor) {

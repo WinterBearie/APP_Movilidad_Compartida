@@ -4,6 +4,11 @@
  */
 package com.mov.app_movilidad_compartida.ui;
 
+import com.mov.app_movilidad_compartida.model.Ruta;
+import com.mov.app_movilidad_compartida.model.Estudiante;
+import javax.swing.DefaultListModel;
+import java.util.List;
+
 /**
  *
  * @author lusedou
@@ -11,12 +16,40 @@ package com.mov.app_movilidad_compartida.ui;
 public class FrmPasajeroList extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(FrmPasajeroList.class.getName());
+    
+    private Ruta ruta;
 
     /**
      * Creates new form FrmPasajaeroList
      */
     public FrmPasajeroList() {
         initComponents();
+    }
+    
+    public FrmPasajeroList(Ruta ruta) {
+        this();
+        this.ruta = ruta;
+        cargarDatos();
+    }
+    
+    private void cargarDatos() {
+        if (ruta == null) return;
+        
+        // Set route name
+        lblFrase3.setText(ruta.getIdRuta());
+        
+        // Load students list
+        DefaultListModel<String> model = new DefaultListModel<>();
+        List<Estudiante> estudiantes = ruta.getEstudiantes();
+        
+        for (Estudiante e : estudiantes) {
+            model.addElement(e.getNombre() + " - " + e.getCodigo() + " (" + e.getCorreo() + ")");
+        }
+        
+        jList1.setModel(model);
+        
+        // Set total
+        lblFrase5.setText(String.valueOf(estudiantes.size()));
     }
 
     /**
@@ -46,11 +79,7 @@ public class FrmPasajeroList extends javax.swing.JFrame {
         lblFrase1.setForeground(new java.awt.Color(0, 102, 153));
         lblFrase1.setText("Ruta");
 
-        jList1.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
+        jList1.setModel(new javax.swing.DefaultListModel<>());
         jScrollPane1.setViewportView(jList1);
 
         lblFrase3.setFont(new java.awt.Font("Xingkai TC", 1, 24)); // NOI18N

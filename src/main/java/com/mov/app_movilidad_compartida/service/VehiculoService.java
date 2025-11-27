@@ -7,7 +7,19 @@ import java.util.Scanner;
 
 public class VehiculoService {
 
+    private static VehiculoService instancia;
     private List<Vehiculo> listaVehiculos = new ArrayList<>();
+    
+    private VehiculoService() {
+        this.listaVehiculos = new ArrayList<>();
+    }
+    
+    public static VehiculoService getInstance() {
+        if (instancia == null) {
+            instancia = new VehiculoService();
+        }
+        return instancia;
+    }
 
     public boolean registrarVehiculo(String modelo, String tipo, String placa) {
         if (buscarPorPlaca(placa) != null) {

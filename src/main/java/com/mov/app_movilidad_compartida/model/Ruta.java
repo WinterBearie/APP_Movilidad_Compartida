@@ -83,6 +83,8 @@ public class Ruta {
     
     public List<Estudiante> getEstudiantes() { return estudiantes; }
 
+    public Vehiculo getVehiculo() { return vehiculo; }
+
     public void setConductor(Conductor conductor) { this.conductor = conductor; }
     public void setVehiculo(Vehiculo vehiculo) { this.vehiculo = vehiculo; }
 
