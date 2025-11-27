@@ -271,6 +271,7 @@ public class FrmMenuConductor extends javax.swing.JFrame {
         Vehiculo nuevoVehiculo = vehiculoService.buscarPorPlaca(placa);
         if (nuevoVehiculo != null) {
             conductorService.asociarVehiculoAConductor(conductor, nuevoVehiculo);
+            this.vehiculo = nuevoVehiculo;
             JOptionPane.showMessageDialog(this, "Vehículo registrado exitosamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
         }
 
