@@ -5,6 +5,7 @@ public class Vehiculo {
     private String modelo;
     private String tipo;
     private String placa;
+    private Conductor conductor;
 
     public Vehiculo() { }
 
@@ -37,6 +38,14 @@ public class Vehiculo {
     public void setPlaca(String placa) {
         this.placa = placa;
     }
+    
+    public Conductor getConductor() {
+        return conductor;
+    }
+
+    public void setConductor(Conductor conductor) {
+        this.conductor = conductor;
+    }
 
 
     public boolean validarPlaca() {
@@ -45,6 +54,7 @@ public class Vehiculo {
 
     @Override
     public String toString() {
-        return "Vehiculo{" + "modelo=" + modelo + ", tipo=" + tipo + ", placa=" + placa + '}';
+        return "Vehiculo{" + "modelo=" + modelo + ", tipo=" + tipo + ", placa=" + placa +
+               ", conductor=" + (conductor != null ? conductor.getNombre() : "null") + '}';
     }
 }

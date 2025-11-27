@@ -120,6 +120,7 @@ public class FrmMenuE extends javax.swing.JFrame {
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Rutas Registradas", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("K2D", 1, 14))); // NOI18N
 
+        txtRutasIns.setEditable(false);
         txtRutasIns.setColumns(20);
         txtRutasIns.setFont(new java.awt.Font("K2D", 0, 12)); // NOI18N
         txtRutasIns.setRows(5);
@@ -183,7 +184,9 @@ public class FrmMenuE extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogoutActionPerformed
-        // TODO add your handling code here:
+        FrmPrincipal frmPrincipal = new FrmPrincipal();
+        frmPrincipal.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnLogoutActionPerformed
 
     private void comboRutasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboRutasActionPerformed

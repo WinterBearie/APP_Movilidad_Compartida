@@ -216,12 +216,15 @@ public class FrmRegisterE extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, e.generarReporte(), "Reporte del Estudiante", JOptionPane.INFORMATION_MESSAGE);
             JOptionPane.showMessageDialog(this, "Estudiante registrado exitosamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
         }
-
+        FrmPrincipal frmPrincipal = new FrmPrincipal();
+        frmPrincipal.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnRegistrarseActionPerformed
 
     private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
         FrmPrincipal frmPrincipal = new FrmPrincipal();
         frmPrincipal.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnRegresarActionPerformed
 
     /**

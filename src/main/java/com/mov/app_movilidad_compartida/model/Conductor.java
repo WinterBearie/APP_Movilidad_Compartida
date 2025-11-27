@@ -1,10 +1,13 @@
 package com.mov.app_movilidad_compartida.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Conductor extends Persona implements IReporte{
 
     private String dni;
     private String licencia;
-    private Vehiculo vehiculo;
+    private List<Vehiculo> vehiculos = new ArrayList<>();
 
     public Conductor() { }
 
@@ -30,12 +33,12 @@ public class Conductor extends Persona implements IReporte{
         this.licencia = licencia;
     }
 
-    public Vehiculo getVehiculo() {
-        return vehiculo;
+    public List<Vehiculo> getVehiculos() {
+        return vehiculos;
     }
 
-    public void setVehiculo(Vehiculo vehiculo) {
-        this.vehiculo = vehiculo;
+    public void agregarVehiculo(Vehiculo v) {
+        this.vehiculos.add(v);
     }
 
 
@@ -51,15 +54,14 @@ public class Conductor extends Persona implements IReporte{
     }
 
     @Override
-public String generarReporte() {
-    return "-----------Reporte del Conductor-----------\n" +
-           "Nombre            : " + getNombre() + "\n" +
-           "DNI               : " + getDni() + "\n" +
-           "Licencia          : " + getLicencia() + "\n" +
-           "Licencia válida   : " + (validarIdentificacion() ? "Sí" : "No") + "\n" +
-           "Vehículo Asignado  : " + (vehiculo != null ? vehiculo.toString() : "No asignado") + "\n" +
-           "-------------------------------------------\n";
-}
+    public String generarReporte() {
+        return "-----------Reporte del Conductor-----------\n" +
+               "Nombre            : " + getNombre() + "\n" +
+               "DNI               : " + getDni() + "\n" +
+               "Licencia          : " + getLicencia() + "\n" +
+               "Licencia válida   : " + (validarIdentificacion() ? "Sí" : "No") + "\n" +
+               "-------------------------------------------\n";
+    }
 
 
     @Override

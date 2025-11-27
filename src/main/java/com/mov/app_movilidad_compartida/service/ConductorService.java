@@ -3,6 +3,7 @@ package com.mov.app_movilidad_compartida.service;
 import com.mov.app_movilidad_compartida.model.Conductor;
 import com.mov.app_movilidad_compartida.model.Vehiculo;
 import com.mov.app_movilidad_compartida.util.GestorArchivos;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -10,9 +11,8 @@ import java.util.Scanner;
 public class ConductorService {
 
     private static ConductorService instancia;
-    private List<Conductor> conductores = new ArrayList<>();
-
-    private GestorArchivos gestor = new GestorArchivos();
+    private List<Conductor> conductores;
+    private GestorArchivos gestor;
     private static final String ARCHIVO = "conductores.txt";
 
     private ConductorService() {
@@ -52,7 +52,7 @@ public class ConductorService {
         if (buscarPorCorreo(conductor.getCorreo()) != null) return false;
         conductores.add(conductor);
         guardar();
-        System.out.println();
+        System.out.println("Conductor registrado:");
         conductor.imprimir();
         return true;
     }
@@ -71,17 +71,32 @@ public class ConductorService {
         return null;
     }
 
+
     public boolean asociarVehiculoAConductor(Conductor conductor, Vehiculo vehiculo) {
         if (conductor == null || vehiculo == null) return false;
-        conductor.setVehiculo(vehiculo);
+        conductor.getVehiculos().add(vehiculo);
+        vehiculo.setConductor(conductor);
         guardar();
         return true;
     }
 
+
+    public List<Vehiculo> getVehiculosPorConductor(Conductor conductor, VehiculoService vehiculoService) {
+        List<Vehiculo> lista = new ArrayList<>();
+        for (Vehiculo v : vehiculoService.getVehiculos()) {
+            if (v.getConductor() != null && v.getConductor().equals(conductor)) {
+                lista.add(v);
+            }
+        }
+        return lista;
+    }
+
     public Conductor buscarPorPlacaVehiculo(String placa) {
-        for (Conductor c : conductores) {
-            if (c.getVehiculo() != null && c.getVehiculo().getPlaca().equalsIgnoreCase(placa)) {
-                return c;
+        for (Conductor c : conductores) { 
+            for (Vehiculo v : c.getVehiculos()) {
+                if (v.getPlaca().equalsIgnoreCase(placa)) {
+                    return c;
+                }
             }
         }
         return null;
@@ -93,41 +108,47 @@ public class ConductorService {
         return null;
     }
 
-    public void cerrarSesionConductor(Conductor conductor) { }
+    public void cerrarSesionConductor(Conductor conductor) { 
+        
+    }
 
+    
     public void guardar() {
-        gestor.guardar(ARCHIVO, conductores, c ->
-            c.getDni() + ";" +
-            c.getNombre() + ";" +
-            c.getLicencia() + ";" +
-            c.getCorreo() + ";" +
-            c.getContrasena() + ";" +
-            (c.getVehiculo() != null ? c.getVehiculo().getPlaca() : "")
-        );
+    gestor.guardar(ARCHIVO, conductores, con -> {
+        String placas = con.getVehiculos().isEmpty() ? "" :
+                         String.join(",", con.getVehiculos().stream().map(Vehiculo::getPlaca).toList());
+        return con.getDni() + ";" +
+               con.getNombre() + ";" +
+               con.getLicencia() + ";" +
+               con.getCorreo() + ";" +
+               con.getContrasena() + ";" +
+               placas;
+    });
+
     }
 
     public void cargar(VehiculoService vehiculoService) {
-        gestor.cargar(ARCHIVO, line -> {
-            String[] p = line.split(";");
-            // System.out.println("Cargando conductor: " + line + " partes: " + p.length);
-            if (p.length >= 5) {
-                Conductor c = new Conductor(p[0], p[1], p[2], p[3], p[4]);
-                if (buscarPorCorreo(c.getCorreo()) == null) {
-                    conductores.add(c);
-                }
+    gestor.cargar(ARCHIVO, line -> {
+        String[] p = line.split(";");
+        if (p.length >= 5) {
+            Conductor c = new Conductor(p[0], p[1], p[2], p[3], p[4]);
+            if (buscarPorCorreo(c.getCorreo()) == null) {
+                conductores.add(c);
+            }
 
-                if (p.length < 6) return null;
-
-                String placaVehiculo = p[5];
-                if (vehiculoService != null && placaVehiculo != null && !placaVehiculo.isEmpty()) {
-                    Vehiculo v = vehiculoService.buscarPorPlaca(placaVehiculo);
+            if (p.length >= 6 && !p[5].isEmpty()) {
+                String[] placas = p[5].split(",");
+                for (String placa : placas) {
+                    Vehiculo v = vehiculoService.buscarPorPlaca(placa);
                     if (v != null) {
-                        c.setVehiculo(v);
+                        c.getVehiculos().add(v);
+                        v.setConductor(c);
                     }
                 }
             }
-            return null;
-        });
-        System.out.println("Conductores cargados: " + conductores.size());
-    }
+        }
+        return null;
+    });
+    System.out.println("Conductores cargados: " + conductores.size());
+}
 }
