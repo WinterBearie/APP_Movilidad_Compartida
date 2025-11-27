@@ -85,11 +85,13 @@ public class FrmPrincipal extends javax.swing.JFrame {
     private void btnRegistroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistroActionPerformed
         FrmRegister frmRegister = new FrmRegister();
         frmRegister.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnRegistroActionPerformed
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
         FrmLogin frmLogin = new FrmLogin();
         frmLogin.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnLoginActionPerformed
 
 

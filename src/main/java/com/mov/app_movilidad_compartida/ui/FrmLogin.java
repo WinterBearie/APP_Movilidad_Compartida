@@ -97,16 +97,19 @@ public class FrmLogin extends javax.swing.JFrame {
     private void btnLoginEActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginEActionPerformed
         FrmLoginE frmLoginE = new FrmLoginE();
         frmLoginE.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnLoginEActionPerformed
 
     private void btnLoginCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginCActionPerformed
         FrmLoginC frmLoginC = new FrmLoginC();
         frmLoginC.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnLoginCActionPerformed
 
     private void btnPrincipalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrincipalActionPerformed
         FrmPrincipal frmPrincipal = new FrmPrincipal();
         frmPrincipal.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnPrincipalActionPerformed
 
     /**

@@ -1,6 +1,8 @@
 
 package com.mov.app_movilidad_compartida.ui;
 
+import com.mov.app_movilidad_compartida.model.Estudiante;
+import com.mov.app_movilidad_compartida.service.EstudianteService;
 import java.awt.Color;
 
 
@@ -116,12 +118,24 @@ public class FrmLoginE extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnLoginEActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginEActionPerformed
-        //Aca para que vaya al menuEstudiante
+        String correo = jTextField1.getText();
+        String contrasena = new String(PswEstudiante.getPassword());
+
+        Estudiante estudiante = EstudianteService.getInstance().iniciarSesionEstudiante(correo, contrasena);
+
+        if (estudiante != null) {
+            FrmMenuE frmMenuE = new FrmMenuE(estudiante);
+            frmMenuE.setVisible(true);
+            this.dispose();
+        } else {
+            javax.swing.JOptionPane.showMessageDialog(this, "Correo o contraseña incorrectos");
+        }
     }//GEN-LAST:event_btnLoginEActionPerformed
 
     private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
         FrmPrincipal frmPrincipal = new FrmPrincipal();
         frmPrincipal.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnRegresarActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

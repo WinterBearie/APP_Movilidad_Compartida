@@ -10,8 +10,35 @@ import java.util.Scanner;
 
 public class RutaService {
 
+    private static RutaService instancia;
     private List<Ruta> rutas = new ArrayList<>();
     private VehiculoService vehiculoService;
+    
+    private RutaService() { }
+
+    public static RutaService getInstance() {
+        if (instancia == null) {
+            instancia = new RutaService();
+        }
+        return instancia;
+    }
+    
+    public List<Ruta> getRutasDisponiblesParaEstudiante(Estudiante e) {
+        List<Ruta> disponibles = new ArrayList<>();
+        for (Ruta r : rutas) {
+            if (r.estaDisponible() && !r.getEstudiantes().contains(e)) {
+                disponibles.add(r);
+            }
+        }
+        return disponibles;
+    }
+
+    public Ruta buscarRutaPorId(String id) {
+        for (Ruta r : rutas) {
+            if (r.getIdRuta().equals(id)) return r;
+        }
+        return null;
+    }
 
     public void setVehiculoService(VehiculoService vehiculoService) { this.vehiculoService = vehiculoService; }
 
@@ -72,19 +99,22 @@ public class RutaService {
         }
     }
 
-    public Ruta buscarRutaPorId(String id) {
-        for (Ruta r : rutas) {
-            if (r.getIdRuta().equalsIgnoreCase(id)) return r;
-        }
-        return null;
-    }
-
     public List<Ruta> getRutasPorEstudiante(Estudiante estudiante) {
         List<Ruta> resultado = new ArrayList<>();
         for (Ruta r : rutas) {
             if (r.getEstudiantes().contains(estudiante)) resultado.add(r);
         }
         return resultado;
+    }
+    
+    public List<Ruta> getRutasDisponibles() {
+    List<Ruta> disponibles = new ArrayList<>();
+    for (Ruta r : rutas) {
+        if (r.estaDisponible()) {
+            disponibles.add(r);
+        }
+    }
+    return disponibles;
     }
 
     public void verRutasPorConductor(Conductor conductor) {
@@ -111,4 +141,15 @@ public class RutaService {
         }
         if (!found) System.out.println("No hay pasajeros registrados");
     }
+    
+    public List<Ruta> listarRutasPorConductor(Conductor conductor) {
+        List<Ruta> resultado = new ArrayList<>();
+        for (Ruta r : rutas) {
+            if (r.getConductor() != null && r.getConductor().equals(conductor)) {
+                resultado.add(r);
+            }
+        }
+        return resultado;
+    }
+
 }
