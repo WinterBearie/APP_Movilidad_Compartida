@@ -213,6 +213,7 @@ public class FrmRegisterC extends javax.swing.JFrame {
     private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
         FrmPrincipal frmPrincipal = new FrmPrincipal();
         frmPrincipal.setVisible(true);
+        this.dispose(); 
     }//GEN-LAST:event_btnRegresarActionPerformed
 
 

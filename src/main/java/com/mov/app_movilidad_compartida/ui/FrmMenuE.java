@@ -68,6 +68,7 @@ public class FrmMenuE extends javax.swing.JFrame {
             }
         });
 
+        jPanel1.setBackground(new java.awt.Color(216, 232, 241));
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Rutas Disponibles", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("K2D", 1, 14))); // NOI18N
         jPanel1.setToolTipText("");
         jPanel1.setFont(new java.awt.Font("K2D", 0, 14)); // NOI18N
@@ -118,6 +119,7 @@ public class FrmMenuE extends javax.swing.JFrame {
                 .addContainerGap(14, Short.MAX_VALUE))
         );
 
+        jPanel2.setBackground(new java.awt.Color(197, 220, 220));
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Rutas Registradas", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("K2D", 1, 14))); // NOI18N
 
         txtRutasIns.setEditable(false);
@@ -231,7 +233,11 @@ public class FrmMenuE extends javax.swing.JFrame {
             comboRutas.addItem("No hay rutas disponibles");
         } else {
             for (Ruta r : rutas) {
-                comboRutas.addItem(r.getIdRuta() + " - " + r.getPuntoPartida() + " → " + r.getDestino() + " (" + r.getHoraSalida() + ")");
+                comboRutas.addItem(r.getIdRuta() + " - " 
+                    + r.getPuntoPartida() + " → " + r.getDestino() 
+                    + " (" + r.getHoraSalida() + ") - S/." + r.getCosto() 
+                    + " - " + r.getVehiculo().getPlaca() + " " + r.getVehiculo().getModelo());
+
             }
         }
     }
@@ -244,10 +250,21 @@ public class FrmMenuE extends javax.swing.JFrame {
             txtRutasIns.setText("No estás inscrito en ninguna ruta");
         } else {
             for (Ruta r : misRutas) {
-                txtRutasIns.append(r.getIdRuta() + " - " + r.getPuntoPartida() + " → " + r.getDestino() + " (" + r.getHoraSalida() + ")\n");
+                String vehiculoStr = "Sin vehículo";
+                if (r.getVehiculo() != null) {
+                    vehiculoStr = r.getVehiculo().getPlaca() + " " + r.getVehiculo().getModelo();
+                }
+
+                txtRutasIns.append(
+                    r.getIdRuta() + " - " 
+                    + r.getPuntoPartida() + " → " + r.getDestino() 
+                    + " (" + r.getHoraSalida() + ") - S/." + r.getCosto() 
+                    + " - " + vehiculoStr + "\n"
+                );
             }
         }
     }
+
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

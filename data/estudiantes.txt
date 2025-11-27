@@ -2,3 +2,4 @@
 Fatima;2345670;ds;fatima@usil.edu.pe;Fatima
 12345678;Sergio;DS;sergio@usil.edu.pe;Sergio
 09876543;Diego;DS;diego@usil.pe;Diego
+123456789;Maria;Sistemas;maria@usil.pe;maria
