@@ -25,20 +25,18 @@ public class VehiculoService {
         return instancia;
     }
 
-    public boolean registrarVehiculo(String modelo, String tipo, String placa) {
+    public String registrarVehiculo(String modelo, String tipo, String placa) {
         if (buscarPorPlaca(placa) != null) {
-            System.out.println("Error: la placa ya se encuentra registrada.");
-            return false;
+            return "La placa ya se encuentra registrada.";
         }
         Vehiculo v = new Vehiculo(modelo, tipo, placa);
         if (!v.validarPlaca()) {
-            System.out.println("Formato de placa invalido. Ejemplo correcto: ABC-123");
-            return false;
+            return "Placa invalida. Formato esperado: AAA-123";
         }
         vehiculos.add(v);
         guardar();
-        System.out.println("Vehiculo registrado correctamente: " + v);
-        return true;
+        System.out.println("Vehiculo registrado correctamente: " + v.toString());
+        return "";
     }
 
     public Vehiculo buscarPorPlaca(String placa) {
