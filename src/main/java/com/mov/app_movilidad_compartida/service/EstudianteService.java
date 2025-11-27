@@ -9,11 +9,24 @@ import java.util.Scanner;
 
 public class EstudianteService {
 
+    private static EstudianteService instancia;
     private List<Estudiante> estudiantes = new ArrayList<>();
     private RutaService rutaService;
     
     private GestorArchivos gestor = new GestorArchivos();
     private static final String ARCHIVO = "estudiantes.txt";
+    
+    private EstudianteService() {
+        this.estudiantes = new ArrayList<>();
+        this.gestor = new GestorArchivos();
+    }
+
+    public static EstudianteService getInstance() {
+        if (instancia == null) {
+            instancia = new EstudianteService();
+        }
+        return instancia;
+    }
 
     public void setRutaService(RutaService rutaService) { this.rutaService = rutaService; }
 
@@ -86,18 +99,16 @@ public class EstudianteService {
     }
 
     public void cargar() {
-        gestor.cargar(ARCHIVO, line -> {
-            String[] p = line.split(";");
-            if (p.length == 5) {
-                estudiantes.add(new Estudiante(
-                        p[0],
-                        p[1], 
-                        p[2], 
-                        p[3], 
-                        p[4]  
-                ));
+    gestor.cargar(ARCHIVO, line -> {
+        String[] p = line.split(";");
+        if (p.length == 5) {
+            Estudiante e = new Estudiante(p[0], p[1], p[2], p[3], p[4]);
+            
+            if (buscarPorCorreo(e.getCorreo()) == null) {
+                estudiantes.add(e);
             }
-            return null;
-        });
+        }
+        return null;
+    });
     }
 }

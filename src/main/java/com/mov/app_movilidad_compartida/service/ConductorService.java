@@ -8,10 +8,23 @@ import java.util.Scanner;
 
 public class ConductorService {
 
+    private static ConductorService instancia;
     private List<Conductor> conductores = new ArrayList<>();
     
     private GestorArchivos gestor = new GestorArchivos();
     private static final String ARCHIVO = "conductores.txt";
+    
+    private ConductorService() {
+        this.conductores = new ArrayList<>();
+        this.gestor = new GestorArchivos();
+    }
+
+    public static ConductorService getInstance() {
+        if (instancia == null) {
+            instancia = new ConductorService();
+        }
+        return instancia;
+    }
 
     public Conductor crearConductorPorConsola(Scanner sc) {
         System.out.print("DNI: ");
@@ -72,13 +85,10 @@ public class ConductorService {
         gestor.cargar(ARCHIVO, line -> {
             String[] p = line.split(";");
             if (p.length == 5) {
-                conductores.add(new Conductor(
-                        p[0],
-                        p[1], 
-                        p[2], 
-                        p[3], 
-                        p[4]  
-                ));
+                Conductor c = new Conductor(p[0], p[1], p[2], p[3], p[4]);
+                if (buscarPorCorreo(c.getCorreo()) == null) {
+                    conductores.add(c);
+                }
             }
             return null;
         });
