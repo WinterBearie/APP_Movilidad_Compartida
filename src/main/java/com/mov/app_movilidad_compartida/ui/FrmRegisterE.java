@@ -210,7 +210,7 @@ public class FrmRegisterE extends javax.swing.JFrame {
         boolean exito = EstudianteService.getInstance().registrarEstudiante(e);
 
         if (!exito) {
-            JOptionPane.showMessageDialog(this, "Ya existe un conductor con este correo", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Ya existe un estudiante con este correo", "Error", JOptionPane.ERROR_MESSAGE);
         } else {
             
             JOptionPane.showMessageDialog(this, e.generarReporte(), "Reporte del Estudiante", JOptionPane.INFORMATION_MESSAGE);

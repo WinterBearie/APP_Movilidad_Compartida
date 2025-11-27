@@ -83,12 +83,13 @@ public class FrmPrincipal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnRegistroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistroActionPerformed
-        FrmRegister frmLogin = new FrmRegister();
-        frmLogin.setVisible(true);
+        FrmRegister frmRegister = new FrmRegister();
+        frmRegister.setVisible(true);
     }//GEN-LAST:event_btnRegistroActionPerformed
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
-        // TODO add your handling code here:
+        FrmLogin frmLogin = new FrmLogin();
+        frmLogin.setVisible(true);
     }//GEN-LAST:event_btnLoginActionPerformed
 
 
