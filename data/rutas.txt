@@ -1,3 +1,0 @@
-109;Magdalena;La Molina;08:00;20;5.0;11111111;ABC-123
-600;USIL C2;USIL C7;09:00;3;4.0;74737280;ABC-122
-001;Plaza Lima Sur - Chorrillos;USIL - Campus 2 - La Molina;09:00;3;5.0;7879045;UVA-123

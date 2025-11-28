@@ -9,14 +9,14 @@ import javax.swing.*;
 
 public class APP_Movilidad_Compartida {
     public static void main(String[] args) {
-        // Configurar Look and Feel del sistema
+        
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        // Cargar datos desde archivos al iniciar
+        
         EstudianteService es = EstudianteService.getInstance();
         es.cargar();
         VehiculoService vs = VehiculoService.getInstance();
@@ -25,7 +25,7 @@ public class APP_Movilidad_Compartida {
         cs.cargar(vs);
         RutaService.getInstance().cargar(cs, vs, es);
 
-        // Iniciar formulario principal desde el paquete ui
+        
         SwingUtilities.invokeLater(() -> {
             FrmPrincipal frame = new FrmPrincipal();
             frame.setVisible(true);

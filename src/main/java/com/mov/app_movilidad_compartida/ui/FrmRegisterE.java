@@ -13,6 +13,7 @@ public class FrmRegisterE extends javax.swing.JFrame {
 
     public FrmRegisterE() {
         initComponents();
+        setLocationRelativeTo(null);
         getContentPane().setBackground(Color.WHITE);
     }
 

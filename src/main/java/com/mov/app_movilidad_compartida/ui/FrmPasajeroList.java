@@ -2,6 +2,7 @@ package com.mov.app_movilidad_compartida.ui;
 
 import com.mov.app_movilidad_compartida.model.Ruta;
 import com.mov.app_movilidad_compartida.model.Estudiante;
+import java.awt.Color;
 import javax.swing.DefaultListModel;
 import java.util.List;
 
@@ -14,6 +15,8 @@ public class FrmPasajeroList extends javax.swing.JFrame {
 
     public FrmPasajeroList() {
         initComponents();
+        setLocationRelativeTo(null);
+        getContentPane().setBackground(Color.WHITE);
     }
     
     public FrmPasajeroList(Ruta ruta) {
@@ -78,7 +81,9 @@ public class FrmPasajeroList extends javax.swing.JFrame {
 
         lblFrase3.setFont(new java.awt.Font("Xingkai TC", 1, 24)); // NOI18N
         lblFrase3.setForeground(new java.awt.Color(106, 171, 193));
+        lblFrase3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblFrase3.setText("RutaName");
+        lblFrase3.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
         lblFrase4.setFont(new java.awt.Font("K2D", 1, 14)); // NOI18N
         lblFrase4.setForeground(new java.awt.Color(0, 102, 153));
@@ -115,22 +120,22 @@ public class FrmPasajeroList extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(99, 99, 99)
                         .addComponent(jButton1)))
-                .addContainerGap(33, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(lblFrase1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(71, 71, 71)
+                .addComponent(lblFrase1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addComponent(lblFrase3)
-                .addGap(76, 76, 76))
+                .addGap(60, 60, 60))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(18, 18, 18)
+                .addContainerGap(18, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblFrase1)
-                    .addComponent(lblFrase3))
-                .addGap(18, 18, 18)
+                    .addComponent(lblFrase1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblFrase3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(18, 18, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -139,7 +144,7 @@ public class FrmPasajeroList extends javax.swing.JFrame {
                     .addComponent(jLabel1))
                 .addGap(18, 18, 18)
                 .addComponent(jButton1)
-                .addContainerGap(18, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         pack();

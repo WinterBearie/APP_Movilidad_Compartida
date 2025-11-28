@@ -22,6 +22,7 @@ public class FrmRegisterRuta extends javax.swing.JFrame {
 
     public FrmRegisterRuta() {
         initComponents();
+        setLocationRelativeTo(null);
         getContentPane().setBackground(Color.WHITE);
     }
 

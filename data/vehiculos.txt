@@ -1,6 +1,0 @@
-Toyota;Carro;ABC-123
-Kia;Auto;ABC-122
-BMW;Camioneta;OOK-123
-BMW;Camioneta;YOU-123
-Chevrolet;Van;CBA-321
-Chevrolet;Auto;UVA-123

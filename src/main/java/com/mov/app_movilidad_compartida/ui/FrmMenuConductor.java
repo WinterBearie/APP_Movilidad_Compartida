@@ -25,6 +25,7 @@ public class FrmMenuConductor extends javax.swing.JFrame {
 
     public FrmMenuConductor() {
         initComponents();
+        setLocationRelativeTo(null);
         tblRuta.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mouseClicked(java.awt.event.MouseEvent evt) {

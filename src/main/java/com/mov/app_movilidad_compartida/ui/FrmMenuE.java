@@ -17,6 +17,7 @@ public class FrmMenuE extends javax.swing.JFrame {
     public FrmMenuE(Estudiante e) {
         this.estudiante = e;
         initComponents();
+        setLocationRelativeTo(null);
         lblNombre.setText(e.getNombre());
         cargarRutas();
         cargarRutasRegistradas();

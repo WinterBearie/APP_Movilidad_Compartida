@@ -7,6 +7,7 @@ public class FrmRegister extends javax.swing.JFrame {
 
     public FrmRegister() {
         initComponents();
+        setLocationRelativeTo(null);
         getContentPane().setBackground(Color.WHITE);
     }
 

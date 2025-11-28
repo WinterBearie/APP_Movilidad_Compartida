@@ -13,6 +13,7 @@ public class FrmLoginC extends javax.swing.JFrame {
 
     public FrmLoginC() {
         initComponents();
+        setLocationRelativeTo(null);
         conductorService = ConductorService.getInstance();
         getContentPane().setBackground(Color.WHITE);
     }

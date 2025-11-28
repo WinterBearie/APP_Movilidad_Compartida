@@ -10,6 +10,7 @@ public class FrmLoginE extends javax.swing.JFrame {
     
     public FrmLoginE() {
         initComponents();
+        setLocationRelativeTo(null);
         getContentPane().setBackground(Color.WHITE);
     }
 
